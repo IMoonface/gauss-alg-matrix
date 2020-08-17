@@ -178,9 +178,9 @@ public class GUI extends JFrame
 				int laenge = text.length();
 				if (laenge > 0) 
 				{
-					//Wenn laenge = 1 wäre, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen überprüft)
+					//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
 					char zeichen = text.charAt(laenge-1);
-					//Falls zeichen nicht größer gleich 0 und kleiner gleich 9 ist 
+					//Falls zeichen nicht grÃ¶sser gleich 0 und kleiner gleich 9 ist 
 					if (!((zeichen >= '0') && (zeichen <= '9'))) 
 					{
 						//Standart Pop Up mit Message drin
