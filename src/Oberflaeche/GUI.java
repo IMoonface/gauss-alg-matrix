@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.PrintStream;
 import java.util.Random;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,7 +32,7 @@ public class GUI extends JFrame
 	
 	double koeff [][];
 	
-	int var = 0, gleich = 0, fertig = 0;
+	int var = 0, gleich = 0, fertig = 0, maximum = 0;
 	
 	public GUI() 
 	{
@@ -72,7 +71,7 @@ public class GUI extends JFrame
 		gleichung.setToolTipText("Druecken Sie!");
 		panel.add(gleichung);
 		
-		loesen = new JButton("Loesen");
+		loesen = new JButton("Loese");
 		loesen.setBounds(320, 160, 110, 20);
 		loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
@@ -180,7 +179,7 @@ public class GUI extends JFrame
 				{
 					//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
 					char zeichen = text.charAt(laenge-1);
-					//Falls zeichen nicht grösser gleich 0 und kleiner gleich 9 ist 
+					//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
 					if (!((zeichen >= '0') && (zeichen <= '9'))) 
 					{
 						//Standart Pop Up mit Message drin
@@ -265,59 +264,37 @@ public class GUI extends JFrame
 		{
 			if(var < gleich) 
 			{
-				for(int erstesEL = 0; erstesEL < matrize[0].length-1; erstesEL++) 
-				{
-					double teiler = matrize[erstesEL][erstesEL];
-					for (int index = 0; index < matrize[0].length; index++) 
-					{
-						matrize[erstesEL][index] = runden(matrize[erstesEL][index]/teiler, 3);
-					}
-					System.out.println("Dividiere " + (erstesEL+1) + " Zeile durch: " + teiler + "\n");
-					Ausgabe(matrize);
-					
-					for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
-					{
-						double summand = matrize[spaltenEl][erstesEL];
-						for (int index2 = 0; index2 < matrize[0].length; index2++) 
-						{
-							double minus = matrize[erstesEL][index2]*summand;
-							matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]-minus, 3);
-						}
-						System.out.println("Multipliziere mit: " + summand + "\nund subtrahiere mit der " + (spaltenEl+1) + " Zeile\n");
-						Ausgabe(matrize);
-					}
-				}
-				//Noch den Rest hinmachen vom GaussJordan: https://matrixcalc.org/de/slu.html#solve-using-Gauss-Jordan-elimination%28%7B%7B3,3,8,0,8%7D,%7B8,7,9,0,5%7D,%7B3,2,9,0,4%7D%7D%29
-				System.out.println("Die Loesung ist:\n");
-				Ausgabe(matrize);
-			}
+				maximum = matrize[0].length-1;
+			} 
 			else 
 			{
-				for(int erstesEL = 0; erstesEL < matrize.length; erstesEL++) 
-				{
-					double teiler = matrize[erstesEL][erstesEL];
-					for (int index = 0; index < matrize[0].length; index++) 
-					{
-						matrize[erstesEL][index] = runden(matrize[erstesEL][index]/teiler, 3);
-					}
-					System.out.println("Dividiere " + (erstesEL+1) + " Zeile durch: " + teiler + "\n");
-					Ausgabe(matrize);
-					for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
-					{
-						double summand = matrize[spaltenEl][erstesEL];
-						for (int index2 = 0; index2 < matrize[0].length; index2++) 
-						{
-							double minus = matrize[erstesEL][index2]*summand;
-							matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]-minus, 3);
-						}
-						System.out.println("Multipliziere mit: " + summand + "\nund subtrahiere mit der " + (spaltenEl+1) + " Zeile\n");
-						Ausgabe(matrize);
-					}
-				}
-				//Noch den Rest hinmachen vom GaussJordan: https://matrixcalc.org/de/slu.html#solve-using-Gauss-Jordan-elimination%28%7B%7B3,3,8,0,8%7D,%7B8,7,9,0,5%7D,%7B3,2,9,0,4%7D%7D%29
-				System.out.println("Die Loesung ist:\n");
-				Ausgabe(matrize);
+				maximum = matrize.length;
 			}
+			for(int erstesEL = 0; erstesEL < maximum; erstesEL++) 
+			{
+				double teiler = matrize[erstesEL][erstesEL];
+				for (int index = 0; index < matrize[0].length; index++) 
+				{
+					matrize[erstesEL][index] = runden(matrize[erstesEL][index]/teiler, 3);
+				}
+				System.out.println("Dividiere " + (erstesEL+1) + " Zeile durch: " + teiler + "\n");
+				Ausgabe(matrize);
+					
+				for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
+				{
+					double summand = matrize[spaltenEl][erstesEL];
+					for (int index2 = 0; index2 < matrize[0].length; index2++) 
+					{
+						double minus = matrize[erstesEL][index2]*summand;
+						matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]-minus, 3);
+					}
+					System.out.println("Multipliziere mit: " + summand + "\nund subtrahiere mit der " + (spaltenEl+1) + " Zeile\n");
+					Ausgabe(matrize);
+				}
+			}
+			//Noch den Rest hinmachen vom GaussJordan: https://matrixcalc.org/de/slu.html#solve-using-Gauss-Jordan-elimination%28%7B%7B3,3,8,0,8%7D,%7B8,7,9,0,5%7D,%7B3,2,9,0,4%7D%7D%29
+			System.out.println("Die Loesung ist:\n");
+			Ausgabe(matrize);
 		}
 	}
 	
