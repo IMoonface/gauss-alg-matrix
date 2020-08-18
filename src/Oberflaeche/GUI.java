@@ -32,7 +32,8 @@ public class GUI extends JFrame
 	
 	double koeff [][];
 	
-	int var = 0, gleich = 0, fertig = 0, maximum = 0;
+	int var = 0, gleich = 0, fertig = 0, maximum = 0, maximum2 = 0;
+	double test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
 	
 	public GUI() 
 	{
@@ -43,6 +44,7 @@ public class GUI extends JFrame
 		add(panel);
 		
 		console = new JTextArea();
+		console.setEditable(false);
 		//Ein PrintStream erweitert einen anderen Ausgabestream um die Moeglichkeit Darstellungen verschiedener Datenwerte (System.out.println(x) z.B.) zu drucken
 		//Parameter: Erstellt eine neue Instanz von TextAreaOutputStream, die in die angegebene Instanz des Steuerelements (console) schreibt.
 		PrintStream out = new PrintStream(new TextAreaOutputStream(console));
@@ -73,7 +75,7 @@ public class GUI extends JFrame
 		
 		loesen = new JButton("Loese");
 		loesen.setBounds(320, 160, 110, 20);
-		loesen.setEnabled(false);
+		//loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
 		loesen.setToolTipText("Druecken Sie!");
 		panel.add(loesen);
@@ -106,6 +108,7 @@ public class GUI extends JFrame
 			{
 				var = Integer.valueOf(String.valueOf(eingabe1.getText()));	
 				fertig += 1;
+				loesen.setEnabled(false);
 				if(fertig % 2 == 0 && var != 0 && gleich != 0) 
 				{
 					koeff = Fuellen(var, gleich);
@@ -119,6 +122,7 @@ public class GUI extends JFrame
 			{
 				gleich = Integer.valueOf(String.valueOf(eingabe2.getText()));
 				fertig += 1;
+				loesen.setEnabled(false);
 				if(fertig % 2 == 0 && var != 0 && gleich != 0) 
 				{
 					
@@ -131,8 +135,8 @@ public class GUI extends JFrame
 			
 			if (a.getSource()==loesen) 
 			{
-				gaussAlg(koeff);
-				loesen.setEnabled(false);
+				gaussAlg(test);
+				//loesen.setEnabled(false);
 			}
 		}
 	}
@@ -273,28 +277,65 @@ public class GUI extends JFrame
 			for(int erstesEL = 0; erstesEL < maximum; erstesEL++) 
 			{
 				double teiler = matrize[erstesEL][erstesEL];
-				for (int index = 0; index < matrize[0].length; index++) 
+				if (teiler == 0.0) 
 				{
-					matrize[erstesEL][index] = runden(matrize[erstesEL][index]/teiler, 3);
+					teiler = matrize[erstesEL+1][erstesEL];
+					for (int index = 0; index < matrize[0].length; index++) 
+					{
+						matrize[erstesEL+1][index] = runden(matrize[erstesEL+1][index]/teiler, 3);
+					}
+					System.out.println("Dividiere " + (erstesEL+2) + ". Zeile durch: " + teiler + "\n");
+					Ausgabe(matrize);
+					for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
+					{
+						for (int index2 = 0; index2 < matrize[0].length; index2++) 
+						{
+							double summand = matrize[erstesEL+1][index2]*1;
+							matrize[spaltenEl-1][index2] = runden(matrize[spaltenEl-1][index2]+summand, 3);
+						}
+						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
+						Ausgabe(matrize);
+					}
 				}
-				System.out.println("Dividiere " + (erstesEL+1) + " Zeile durch: " + teiler + "\n");
-				Ausgabe(matrize);
+				else 
+				{
+					for (int index = 0; index < matrize[0].length; index++) 
+					{
+						matrize[erstesEL][index] = runden(matrize[erstesEL][index]/teiler, 3);
+					}
+					System.out.println("Dividiere " + (erstesEL+1) + ". Zeile durch: " + teiler + "\n");
+					Ausgabe(matrize);
+				}
 					
 				for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
 				{
-					double summand = matrize[spaltenEl][erstesEL];
+					double multi = -matrize[spaltenEl][erstesEL];
 					for (int index2 = 0; index2 < matrize[0].length; index2++) 
 					{
-						double minus = matrize[erstesEL][index2]*summand;
-						matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]-minus, 3);
+						double summand = matrize[erstesEL][index2]*multi;
+						matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]+summand, 3);
 					}
-					System.out.println("Multipliziere mit: " + summand + "\nund subtrahiere mit der " + (spaltenEl+1) + " Zeile\n");
+					System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
 					Ausgabe(matrize);
 				}
 			}
-			//Noch den Rest hinmachen vom GaussJordan: https://matrixcalc.org/de/slu.html#solve-using-Gauss-Jordan-elimination%28%7B%7B3,3,8,0,8%7D,%7B8,7,9,0,5%7D,%7B3,2,9,0,4%7D%7D%29
-			System.out.println("Die Loesung ist:\n");
-			Ausgabe(matrize);
+			/*for(int erstesEL = 0; erstesEL < maximum; erstesEL++) 
+			//{
+				//Problem bei nicht quadratischen Matrizen
+				for (int einserEL = matrize.length; einserEL>1; einserEL--) 
+				{
+					double multi2 = -matrize[einserEL-2][einserEL-1];
+					for (int index2 = matrize[0].length; index2>1; index2--) 
+					{
+						double summand2 = matrize[einserEL-1][index2-1]*multi2;
+						matrize[einserEL-2][index2-1] = runden(matrize[einserEL-2][index2-1]+summand2, 3);
+					}
+					System.out.println("Multipliziere mit: " + multi2 + "\nund addiere mit der " + (einserEL-1) + ". Zeile\n");
+					Ausgabe(matrize);
+				}
+				System.out.println("Die Loesung ist:\n");
+				Ausgabe(matrize);
+			}*/
 		}
 	}
 	
