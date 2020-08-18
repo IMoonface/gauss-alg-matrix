@@ -31,9 +31,9 @@ public class GUI extends JFrame
 	JLabel erklaerung;
 	
 	double koeff [][];
+	double test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
 	
 	int var = 0, gleich = 0, fertig = 0, maximum = 0, maximum2 = 0;
-	double test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
 	
 	public GUI() 
 	{
@@ -75,7 +75,7 @@ public class GUI extends JFrame
 		
 		loesen = new JButton("Loese");
 		loesen.setBounds(320, 160, 110, 20);
-		//loesen.setEnabled(false);
+		loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
 		loesen.setToolTipText("Druecken Sie!");
 		panel.add(loesen);
@@ -135,8 +135,8 @@ public class GUI extends JFrame
 			
 			if (a.getSource()==loesen) 
 			{
-				gaussAlg(test);
-				//loesen.setEnabled(false);
+				gaussAlg(koeff);
+				loesen.setEnabled(false);
 			}
 		}
 	}
@@ -305,22 +305,25 @@ public class GUI extends JFrame
 					}
 					System.out.println("Dividiere " + (erstesEL+1) + ". Zeile durch: " + teiler + "\n");
 					Ausgabe(matrize);
-				}
 					
-				for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
-				{
-					double multi = -matrize[spaltenEl][erstesEL];
-					for (int index2 = 0; index2 < matrize[0].length; index2++) 
+					for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
 					{
-						double summand = matrize[erstesEL][index2]*multi;
-						matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]+summand, 3);
+						double multi = -matrize[spaltenEl][erstesEL];
+						for (int index2 = 0; index2 < matrize[0].length; index2++) 
+						{
+							double summand = matrize[erstesEL][index2]*multi;
+							matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]+summand, 3);
+						}
+						System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
+						Ausgabe(matrize);
 					}
-					System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
-					Ausgabe(matrize);
 				}
 			}
-			/*for(int erstesEL = 0; erstesEL < maximum; erstesEL++) 
-			//{
+			System.out.println("Die Loesung ist:\n");
+			Ausgabe(matrize);
+			/*
+			for(int erstesEL = 0; erstesEL < maximum; erstesEL++) 
+			{
 				//Problem bei nicht quadratischen Matrizen
 				for (int einserEL = matrize.length; einserEL>1; einserEL--) 
 				{
@@ -333,9 +336,10 @@ public class GUI extends JFrame
 					System.out.println("Multipliziere mit: " + multi2 + "\nund addiere mit der " + (einserEL-1) + ". Zeile\n");
 					Ausgabe(matrize);
 				}
-				System.out.println("Die Loesung ist:\n");
-				Ausgabe(matrize);
-			}*/
+			}
+			System.out.println("Die Loesung ist:\n");
+			Ausgabe(matrize); 
+			*/
 		}
 	}
 	
