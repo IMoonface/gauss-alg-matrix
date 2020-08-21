@@ -33,6 +33,8 @@ public class GUI extends JFrame
 	JLabel erklaerung;
 	double koeff [][];
 	double test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
+	double test2 [][] = {{5,8,3,2},{3,4,1,5},{2,8,7,4}};
+	double test3 [][] = {{3,2,2,2},{2,3,2,2},{2,2,3,2}};
 	int var = 0, gleich = 0, bereit = 0, max = 0, max2 = 0, antwort = 0;
 	
 	public GUI() 
@@ -73,8 +75,8 @@ public class GUI extends JFrame
 		gleichung.setToolTipText("Druecken Sie, um die Anzahl der Gleichungen zu bestaetigen");
 		panel.add(gleichung);
 		
-		loesen = new JButton("Loese");
-		loesen.setBounds(320, 160, 110, 20);
+		loesen = new JButton("Loesen");
+		loesen.setBounds(300, 160, 110, 20);
 		loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
 		loesen.setToolTipText("Druecken Sie, um den Gauss-Jordan-Algorithmus auszufuehren");
@@ -135,7 +137,7 @@ public class GUI extends JFrame
 			}		
 			if (a.getSource()==loesen) 
 			{
-				gaussAlg(koeff);
+				gaussAlg(test3);
 				loesen.setEnabled(false);
 			}
 		}
@@ -330,7 +332,7 @@ public class GUI extends JFrame
 					teiler = matrize[erstesEL+1][erstesEL];
 					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						matrize[erstesEL+1][SpaltenIndex] = runden(matrize[erstesEL+1][SpaltenIndex]/teiler, 3);
+						matrize[erstesEL+1][SpaltenIndex] = runden(matrize[erstesEL+1][SpaltenIndex]/teiler);
 					}
 					System.out.println("Dividiere " + (erstesEL+2) + ". Zeile durch: " + teiler + "\n");
 					Ausgabe(matrize);
@@ -339,7 +341,7 @@ public class GUI extends JFrame
 						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
 							double summand = matrize[erstesEL+1][SpaltenIndex2]*1;
-							matrize[spaltenEl-1][SpaltenIndex2] = runden(matrize[spaltenEl-1][SpaltenIndex2]+summand, 3);
+							matrize[spaltenEl-1][SpaltenIndex2] = runden(matrize[spaltenEl-1][SpaltenIndex2]+summand);
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -349,7 +351,7 @@ public class GUI extends JFrame
 				{
 					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						matrize[erstesEL][SpaltenIndex] = runden(matrize[erstesEL][SpaltenIndex]/teiler, 3);
+						matrize[erstesEL][SpaltenIndex] = runden(matrize[erstesEL][SpaltenIndex]/teiler);
 					}
 					System.out.println("Dividiere " + (erstesEL+1) + ". Zeile durch: " + teiler + "\n");
 					Ausgabe(matrize);
@@ -360,7 +362,7 @@ public class GUI extends JFrame
 						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
 							double summand = matrize[erstesEL][SpaltenIndex2] * multi;
-							matrize[spaltenEl][SpaltenIndex2] = runden(matrize[spaltenEl][SpaltenIndex2]+summand, 3);
+							matrize[spaltenEl][SpaltenIndex2] = runden(matrize[spaltenEl][SpaltenIndex2]+summand);
 						}
 						System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -381,7 +383,7 @@ public class GUI extends JFrame
 						for (int SpaltenIndex3 = matrize[0].length; SpaltenIndex3 >= 1; SpaltenIndex3--) 
 						{
 							double summand2 = matrize[einserSp-1][SpaltenIndex3-1]*multi2;
-							matrize[einserZL-2][SpaltenIndex3-1] = runden(matrize[einserZL-2][SpaltenIndex3-1]+summand2, 3);
+							matrize[einserZL-2][SpaltenIndex3-1] = runden(matrize[einserZL-2][SpaltenIndex3-1]+summand2);
 						}
 						System.out.println("Multipliziere mit: " + multi2 + "\nund addiere mit der " + (einserZL-1) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -392,8 +394,9 @@ public class GUI extends JFrame
 			}
 		}
 	}
-	//Probleme beim runden (vllt. geloest)
-	double runden(double wert, int nachkommastellen)
+	/*
+	//Probleme beim runden noch fixen
+	double runden2(double wert, int nachkommastellen)
 	{
 		double zahl = Math.pow(10, nachkommastellen);
 		double gerundet = Math.rint(wert*zahl)/zahl;
@@ -402,5 +405,18 @@ public class GUI extends JFrame
 			gerundet = 0.0;
 		}
 		return gerundet;
+	}
+	*/
+	//Probleme beim runden noch fixen
+	double runden(double wert) 
+	{
+		wert = wert * 1000;
+		wert = Math.round(wert);
+		wert = wert / 1000;
+		if(wert == -0.0) 
+		{
+			wert = 0.0;
+		}
+		return wert;
 	}
 }
