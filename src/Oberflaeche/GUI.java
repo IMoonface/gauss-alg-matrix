@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.PrintStream;
 import java.util.Random;
 import javax.swing.JButton;
@@ -26,14 +28,12 @@ public class GUI extends JFrame
 	JButton variable;
 	JButton gleichung;
 	JButton loesen;
-	JTextField eingabe1;
-	JTextField eingabe2;
+	JTextField eingabeVar;
+	JTextField eingabeGlei;
 	JLabel erklaerung;
-	
 	double koeff [][];
 	double test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
-	
-	int var = 0, gleich = 0, fertig = 0, maximum = 0, maximum2 = 0;
+	int var = 0, gleich = 0, bereit = 0, max = 0, max2 = 0, antwort = 0;
 	
 	public GUI() 
 	{
@@ -63,40 +63,42 @@ public class GUI extends JFrame
 		variable.setBounds(340, 40, 100, 20);
 		variable.setEnabled(false);
 		variable.addActionListener(new ActionHandler());
-		variable.setToolTipText("Druecken Sie!");
+		variable.setToolTipText("Druecken Sie, um die Anzahl der Variablen zu bestaetigen");
 		panel.add(variable);
 		
 		gleichung = new JButton("Gleichungen");
 		gleichung.setBounds(340, 100, 110, 20);
 		gleichung.setEnabled(false);
 		gleichung.addActionListener(new ActionHandler());
-		gleichung.setToolTipText("Druecken Sie!");
+		gleichung.setToolTipText("Druecken Sie, um die Anzahl der Gleichungen zu bestaetigen");
 		panel.add(gleichung);
 		
 		loesen = new JButton("Loese");
 		loesen.setBounds(320, 160, 110, 20);
 		loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
-		loesen.setToolTipText("Druecken Sie!");
+		loesen.setToolTipText("Druecken Sie, um den Gauss-Jordan-Algorithmus auszufuehren");
 		panel.add(loesen);
 		
-		eingabe1 = new JTextField();
-		eingabe1.setBounds(300, 40, 30, 20);
-		eingabe1.addCaretListener(new CaretHandler());
-		eingabe1.addKeyListener(new KeyHandler());
-		eingabe1.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
-		panel.add(eingabe1);
+		eingabeVar = new JTextField();
+		eingabeVar.setBounds(300, 40, 30, 20);
+		eingabeVar.addCaretListener(new CaretHandler());
+		eingabeVar.addKeyListener(new KeyHandler());
+		eingabeVar.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
+		panel.add(eingabeVar);
 		
-		eingabe2 = new JTextField();
-		eingabe2.setBounds(300, 100, 30, 20);
-		eingabe2.addCaretListener(new CaretHandler());
-		eingabe2.addKeyListener(new KeyHandler());
-		eingabe2.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
-		panel.add(eingabe2);
+		eingabeGlei = new JTextField();
+		eingabeGlei.setBounds(300, 100, 30, 20);
+		eingabeGlei.addCaretListener(new CaretHandler());
+		eingabeGlei.addKeyListener(new KeyHandler());
+		eingabeGlei.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
+		panel.add(eingabeGlei);
 		
-		erklaerung = new JLabel("Die ist Programm zur Ausfuehrung des Gauss Jordan Algorithmus");
+		erklaerung = new JLabel("Dies ist Programm zur Ausfuehrung des Gauss Jordan Algorithmus");
 		erklaerung.setBounds(10, 260, 450, 100);
 		panel.add(erklaerung);
+		
+		addWindowListener(new WindowHandler());
 	}
 
 	private class ActionHandler implements ActionListener 
@@ -106,24 +108,23 @@ public class GUI extends JFrame
 		{
 			if(a.getSource()==variable) 
 			{
-				var = Integer.valueOf(String.valueOf(eingabe1.getText()));	
-				fertig += 1;
+				var = Integer.valueOf(String.valueOf(eingabeVar.getText()));	
+				bereit += 1;
 				loesen.setEnabled(false);
-				if(fertig % 2 == 0 && var != 0 && gleich != 0) 
+				if(bereit % 2 == 0 && var != 0 && gleich != 0) 
 				{
 					koeff = Fuellen(var, gleich);
 					System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
 					Ausgabe(koeff);
 					loesen.setEnabled(true);
 				}
-			} 
-			
+			}		
 			if (a.getSource()==gleichung) 
 			{
-				gleich = Integer.valueOf(String.valueOf(eingabe2.getText()));
-				fertig += 1;
+				gleich = Integer.valueOf(String.valueOf(eingabeGlei.getText()));
+				bereit += 1;
 				loesen.setEnabled(false);
-				if(fertig % 2 == 0 && var != 0 && gleich != 0) 
+				if(bereit % 2 == 0 && var != 0 && gleich != 0) 
 				{
 					
 					koeff = Fuellen(var, gleich);
@@ -131,8 +132,7 @@ public class GUI extends JFrame
 					Ausgabe(koeff);
 					loesen.setEnabled(true);
 				}
-			}
-			
+			}		
 			if (a.getSource()==loesen) 
 			{
 				gaussAlg(koeff);
@@ -146,9 +146,9 @@ public class GUI extends JFrame
 		@Override
 		public void caretUpdate(CaretEvent a) 
 		{
-			String e1 = String.valueOf(eingabe1.getText());
+			String e1 = String.valueOf(eingabeVar.getText());
 			e1 = e1.trim();
-			String e2 = String.valueOf(eingabe2.getText());
+			String e2 = String.valueOf(eingabeGlei.getText());
 			e2 = e2.trim();
 			if(e1.isEmpty() || e1.length() > 1) 
 			{
@@ -175,9 +175,9 @@ public class GUI extends JFrame
 		@Override
 		public void keyReleased(KeyEvent e) 
 		{
-			if(e.getSource() == eingabe1) 
+			if(e.getSource() == eingabeVar) 
 			{
-				String text = eingabe1.getText();
+				String text = eingabeVar.getText();
 				int laenge = text.length();
 				if (laenge > 0) 
 				{
@@ -186,15 +186,14 @@ public class GUI extends JFrame
 					//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
 					if (!((zeichen >= '0') && (zeichen <= '9'))) 
 					{
-						//Standart Pop Up mit Message drin
 						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen eingeben!");
-						eingabe1.setText("");
+						eingabeVar.setText("");
 					}
 				}	
 			}
-			else if(e.getSource() == eingabe2) 
+			else if(e.getSource() == eingabeGlei) 
 			{
-				String text = eingabe2.getText();
+				String text = eingabeGlei.getText();
 				int laenge = text.length();
 				if (laenge > 0) 
 				{
@@ -202,7 +201,7 @@ public class GUI extends JFrame
 					if (!((zeichen >= '0') && (zeichen <= '9'))) 
 					{
 						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen eingeben!") ;
-						eingabe2.setText("");
+						eingabeGlei.setText("");
 					}
 				}
 			}
@@ -216,6 +215,55 @@ public class GUI extends JFrame
 
 		@Override
 		public void keyPressed(KeyEvent e) 
+		{
+			
+		}
+	}
+	
+	private class WindowHandler implements WindowListener 
+	{
+		@Override
+		public void windowOpened(WindowEvent e) 
+		{
+			
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) 
+		{
+			antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
+			if(antwort == JOptionPane.YES_OPTION) 
+			{
+				System.exit(0);
+			}
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) 
+		{
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) 
+		{
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) 
+		{
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) 
+		{
+			
+		}
+		//Gibt an, dass eine Methodendeklaration eine Methodendeklaration in einem Supertyp überschreiben soll.
+		@Override
+		public void windowDeactivated(WindowEvent e) 
 		{
 			
 		}
@@ -268,30 +316,30 @@ public class GUI extends JFrame
 		{
 			if(var < gleich) 
 			{
-				maximum = matrize[0].length-1;
+				max = matrize[0].length-1;
 			} 
 			else 
 			{
-				maximum = matrize.length;
+				max = matrize.length;
 			}
-			for(int erstesEL = 0; erstesEL < maximum; erstesEL++) 
+			for(int erstesEL = 0; erstesEL < max; erstesEL++) 
 			{
 				double teiler = matrize[erstesEL][erstesEL];
 				if (teiler == 0.0) 
 				{
 					teiler = matrize[erstesEL+1][erstesEL];
-					for (int index = 0; index < matrize[0].length; index++) 
+					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						matrize[erstesEL+1][index] = runden(matrize[erstesEL+1][index]/teiler, 3);
+						matrize[erstesEL+1][SpaltenIndex] = runden(matrize[erstesEL+1][SpaltenIndex]/teiler, 3);
 					}
 					System.out.println("Dividiere " + (erstesEL+2) + ". Zeile durch: " + teiler + "\n");
 					Ausgabe(matrize);
-					for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
+					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
-						for (int index2 = 0; index2 < matrize[0].length; index2++) 
+						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
-							double summand = matrize[erstesEL+1][index2]*1;
-							matrize[spaltenEl-1][index2] = runden(matrize[spaltenEl-1][index2]+summand, 3);
+							double summand = matrize[erstesEL+1][SpaltenIndex2]*1;
+							matrize[spaltenEl-1][SpaltenIndex2] = runden(matrize[spaltenEl-1][SpaltenIndex2]+summand, 3);
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -299,20 +347,20 @@ public class GUI extends JFrame
 				}
 				else 
 				{
-					for (int index = 0; index < matrize[0].length; index++) 
+					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						matrize[erstesEL][index] = runden(matrize[erstesEL][index]/teiler, 3);
+						matrize[erstesEL][SpaltenIndex] = runden(matrize[erstesEL][SpaltenIndex]/teiler, 3);
 					}
 					System.out.println("Dividiere " + (erstesEL+1) + ". Zeile durch: " + teiler + "\n");
 					Ausgabe(matrize);
 					
-					for(int spaltenEl = erstesEL + 1; spaltenEl < matrize.length; spaltenEl++) 
+					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
 						double multi = -matrize[spaltenEl][erstesEL];
-						for (int index2 = 0; index2 < matrize[0].length; index2++) 
+						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
-							double summand = matrize[erstesEL][index2]*multi;
-							matrize[spaltenEl][index2] = runden(matrize[spaltenEl][index2]+summand, 3);
+							double summand = matrize[erstesEL][SpaltenIndex2] * multi;
+							matrize[spaltenEl][SpaltenIndex2] = runden(matrize[spaltenEl][SpaltenIndex2]+summand, 3);
 						}
 						System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -321,31 +369,38 @@ public class GUI extends JFrame
 			}
 			System.out.println("Die Loesung ist:\n");
 			Ausgabe(matrize);
-			/*
-			for(int erstesEL = 0; erstesEL < maximum; erstesEL++) 
+			if(var >= gleich) 
 			{
-				//Problem bei nicht quadratischen Matrizen
-				for (int einserEL = matrize.length; einserEL>1; einserEL--) 
+				max2 = matrize.length+1;
+				for(int einserSp = matrize.length; einserSp > 1; einserSp--) 
 				{
-					double multi2 = -matrize[einserEL-2][einserEL-1];
-					for (int index2 = matrize[0].length; index2>1; index2--) 
+					max2--; 
+					for (int einserZL = max2; einserZL >= 2; einserZL--) 
 					{
-						double summand2 = matrize[einserEL-1][index2-1]*multi2;
-						matrize[einserEL-2][index2-1] = runden(matrize[einserEL-2][index2-1]+summand2, 3);
+						double multi2 = -matrize[einserZL-2][einserSp-1];		
+						for (int SpaltenIndex3 = matrize[0].length; SpaltenIndex3 >= 1; SpaltenIndex3--) 
+						{
+							double summand2 = matrize[einserSp-1][SpaltenIndex3-1]*multi2;
+							matrize[einserZL-2][SpaltenIndex3-1] = runden(matrize[einserZL-2][SpaltenIndex3-1]+summand2, 3);
+						}
+						System.out.println("Multipliziere mit: " + multi2 + "\nund addiere mit der " + (einserZL-1) + ". Zeile\n");
+						Ausgabe(matrize);
 					}
-					System.out.println("Multipliziere mit: " + multi2 + "\nund addiere mit der " + (einserEL-1) + ". Zeile\n");
-					Ausgabe(matrize);
 				}
+				System.out.println("Die Loesung ist:\n");
+				Ausgabe(matrize); 
 			}
-			System.out.println("Die Loesung ist:\n");
-			Ausgabe(matrize); 
-			*/
 		}
 	}
-	
+	//Probleme beim runden (vllt. geloest)
 	double runden(double wert, int nachkommastellen)
 	{
 		double zahl = Math.pow(10, nachkommastellen);
-		return Math.round(wert*zahl)/zahl;
+		double gerundet = Math.rint(wert*zahl)/zahl;
+		if(gerundet == -0.0) 
+		{
+			gerundet = 0.0;
+		}
+		return gerundet;
 	}
 }
