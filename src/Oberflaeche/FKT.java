@@ -2,12 +2,10 @@ package Oberflaeche;
 
 import java.util.Random;
 
-//Fuer die ganzen Matrizenfunktionen (klappt aber leider nicht ich kann die in ner anderen Klasse nicht aufrufen...)
+//Fuer die ganzen Matrizenfunktionen
 public class FKT
 {
-	public void sayHello() {
-		System.out.println("hello");
-	}
+	int max = 0, max2 = 0;
 	
 	double[][] Fuellen (int x, int y) 
 	{
@@ -47,7 +45,6 @@ public class FKT
 	
 	void gaussAlg (double[][] matrize, int var, int gleich) 
 	{
-		int max = 0, max2 = 0;
 		if (var==1 && gleich==1) 
 		{
 			System.out.println("Die Loesung ist:\n");

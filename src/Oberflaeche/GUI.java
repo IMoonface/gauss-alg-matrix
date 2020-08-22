@@ -36,7 +36,7 @@ public class GUI extends JFrame
 	double test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
 	double test2 [][] = {{5,8,3,2},{3,4,1,5},{2,8,7,4}};
 	double test3 [][] = {{3,2,2,2},{2,3,2,2},{2,2,3,2}};
-	int var = 0, gleich = 0, bereit = 0, max = 0, max2 = 0, antwort = 0;
+	int var = 0, gleich = 0, bereit = 0;
 	
 	public GUI() 
 	{
@@ -240,7 +240,7 @@ public class GUI extends JFrame
 		@Override
 		public void windowClosing(WindowEvent e) 
 		{
-			antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
+			int antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
 			if(antwort == JOptionPane.YES_OPTION) 
 			{
 				System.exit(0);
