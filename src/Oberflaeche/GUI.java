@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -24,6 +25,7 @@ public class GUI extends JFrame
 {
 	JPanel panel;
 	JTextArea console;
+	JTextPane hinweis;
 	JScrollPane scroll;
 	JButton variable;
 	JButton gleichung;
@@ -100,6 +102,13 @@ public class GUI extends JFrame
 		erklaerung.setBounds(10, 260, 450, 100);
 		panel.add(erklaerung);
 		
+		hinweis = new JTextPane();
+		hinweis.setText("Hinweis:\nDie Ergebnisse werden auf 3 Nachkommastellen begrentzt, somit können Ungenauigkeiten bei der letzten Stelle auftreten.");
+		hinweis.setBackground(getContentPane().getBackground());
+		hinweis.setBounds(300, 190, 150, 100);
+		hinweis.setEditable(false);
+		panel.add(hinweis);
+		
 		addWindowListener(new WindowHandler());
 	}
 
@@ -137,7 +146,7 @@ public class GUI extends JFrame
 			}		
 			if (a.getSource()==loesen) 
 			{
-				gaussAlg(test);
+				gaussAlg(test3);
 				loesen.setEnabled(false);
 			}
 		}
@@ -409,9 +418,13 @@ public class GUI extends JFrame
 	//Probleme beim runden noch fixen
 	double runden(double wert) 
 	{
-		wert = wert * 10000;
-		wert = Math.round(wert);
-		wert = wert / 10000;
+		wert = wert * 1000;
+		wert = Math.rint(wert);
+		wert = wert / 1000;
+		if (wert == -0.0) 
+		{
+			wert = 0.0; 
+		}
 		return wert;
 	}
 }
