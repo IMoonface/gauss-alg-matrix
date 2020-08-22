@@ -17,13 +17,12 @@ public class TextAreaOutputStream extends OutputStream
     	end = zwischen;
     }
 
-    //Klassen, die eine Unterklasse von OutputStream sind müssen, mindestens die Methode "write" bereitstellen, die einen Byte Ausgabe schreibt.
+    //Klassen, die eine Unterklasse von OutputStream sind müssen, mindestens die Methode "write" bereitstellen, die einen Byte "Ausgabe" schreibt (z.B.: ein H).
     //Schreibt das angegebene Byte in einen Ausgabestrom (TextAreaOutputStream)
     public void write (int b) throws IOException 
     {
-        //Haengt das in der Klammer ans Ende der TextArea dran 
+        //append: Haengt das in der Klammer ans Ende der TextArea dran 
     	//String.valueOf(char c) erwartet einen char, deshalb der cast, sonst wuerde eine andere Methode genommen werden
-    	//https://de.wikibooks.org/wiki/Java_Standard:_Primitive_Datentypen
     	end.append(String.valueOf((char)b));
     }  
 }

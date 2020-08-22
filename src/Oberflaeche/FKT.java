@@ -76,18 +76,18 @@ public class FKT
 					{
 						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
-							double summand = matrize[erstesEL+1][SpaltenIndex2]*1;
+							double summand = matrize[erstesEL+1][SpaltenIndex2];
 							matrize[spaltenEl-1][SpaltenIndex2] = runden(matrize[spaltenEl-1][SpaltenIndex2]+summand);
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
 						Ausgabe(matrize);
 					}
-					//weil die 3te Zeile dann 1 als erstes Element hat muss man die 2 Zeile jetzt draufrechnen
+					//weil die 3te Zeile dann 1 als erstes Element hat muss man die 2 Zeile jetzt negiert draufrechnen
 					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
 						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
-							double summand = -matrize[erstesEL][SpaltenIndex2]*1;
+							double summand = -matrize[erstesEL][SpaltenIndex2];
 							matrize[spaltenEl][SpaltenIndex2] = runden(matrize[spaltenEl][SpaltenIndex2]+summand);
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");

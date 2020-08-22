@@ -7,6 +7,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
+import java.util.Locale;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -109,7 +111,7 @@ public class GUI extends JFrame
 		
 		addWindowListener(new WindowHandler());
 	}
-	//extends damit ActionHandler die Funktionen aus FKT nutzen kann 
+	//extends, damit ActionHandler die Funktionen aus FKT nutzen kann 
 	private class ActionHandler extends FKT implements ActionListener 
 	{
 		@Override
