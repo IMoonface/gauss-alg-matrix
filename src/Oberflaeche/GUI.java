@@ -137,7 +137,7 @@ public class GUI extends JFrame
 			}		
 			if (a.getSource()==loesen) 
 			{
-				gaussAlg(test3);
+				gaussAlg(test);
 				loesen.setEnabled(false);
 			}
 		}
@@ -346,6 +346,17 @@ public class GUI extends JFrame
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
 						Ausgabe(matrize);
 					}
+					//weil die 3te Zeile dann 1 als erstes Element hat muss man die 2 Zeile jetzt draufrechnen
+					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
+					{
+						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
+						{
+							double summand = -matrize[erstesEL][SpaltenIndex2]*1;
+							matrize[spaltenEl][SpaltenIndex2] = runden(matrize[spaltenEl][SpaltenIndex2]+summand);
+						}
+						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
+						Ausgabe(matrize);
+					}
 				}
 				else 
 				{
@@ -371,6 +382,7 @@ public class GUI extends JFrame
 			}
 			System.out.println("Die Loesung ist:\n");
 			Ausgabe(matrize);
+			//Rest des Gauss Jordan
 			if(var >= gleich) 
 			{
 				max2 = matrize.length+1;
@@ -394,29 +406,12 @@ public class GUI extends JFrame
 			}
 		}
 	}
-	/*
-	//Probleme beim runden noch fixen
-	double runden2(double wert, int nachkommastellen)
-	{
-		double zahl = Math.pow(10, nachkommastellen);
-		double gerundet = Math.rint(wert*zahl)/zahl;
-		if(gerundet == -0.0) 
-		{
-			gerundet = 0.0;
-		}
-		return gerundet;
-	}
-	*/
 	//Probleme beim runden noch fixen
 	double runden(double wert) 
 	{
-		wert = wert * 1000;
+		wert = wert * 10000;
 		wert = Math.round(wert);
-		wert = wert / 1000;
-		if(wert == -0.0) 
-		{
-			wert = 0.0;
-		}
+		wert = wert / 10000;
 		return wert;
 	}
 }
