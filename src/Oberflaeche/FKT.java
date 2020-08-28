@@ -1,21 +1,27 @@
 package Oberflaeche;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
-//Fuer die ganzen Matrizenfunktionen
 public class FKT
 {
-	int max = 0, max2 = 0;
-	
+	int max = 0;
+	Random r = new Random();
 	double[][] Fuellen (int x, int y) 
 	{
 		double[][] matrize = new double[y][x+1];
-		Random random = new Random();
 	    for (int gleichungen = 0; gleichungen < matrize.length; gleichungen++) 
 	    {
 	        for (int variablen = 0; variablen < matrize[0].length; variablen++) 
 	        {
-	        	matrize[gleichungen][variablen] = random.nextInt(9)+1;
+	        	//ThreadLocalRandom: Ein Zufallszahlengenerator, isoliert zum aktuellen Thread (Macht eig nur Sinn bei Multithreading)
+	        	//Usages of this class should typically be of the form: ThreadLocalRandom.current().nextX(...) (where X is Int, Long, etc)
+	        	//nextLong: Gibt einen zufälligen long-Wert zwischen dem angegebenen Ursprung (erster Para.) und der angegebenen Grenze (zweiter Para.) zurück
+	        	matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
+	        	while(matrize[gleichungen][variablen] == 0.0) 
+	        	{
+	        		matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
+	        	}
 	        }
 	    }  
 		return matrize;
@@ -121,7 +127,8 @@ public class FKT
 			//Rest des Gauss Jordan
 			if(var >= gleich) 
 			{
-				max2 = matrize.length+1;
+				//Zuletzt veraendert(keine globale variable mehr)
+				int max2 = matrize.length+1;
 				for(int einserSp = matrize.length; einserSp > 1; einserSp--) 
 				{
 					max2--; 
@@ -145,7 +152,7 @@ public class FKT
 	//Probleme beim runden noch fixen
 	double runden(double wert) 
 	{
-		wert = Math.round(wert * 1000.0) / 1000.0;
+		wert = Math.rint(wert * 1000.0) / 1000.0;
 		if (wert == -0.0) 
 		{
 			wert = 0.0; 
