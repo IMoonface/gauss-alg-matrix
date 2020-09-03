@@ -33,9 +33,10 @@ public class GUI extends JFrame
 	JTextField eingabeGlei;
 	JLabel erklaerung;
 	double koeff [][];
-	double test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
+	double test [][] = {{5.0,5.0,3.0,7.0},{4.0,4.0,8.0,6.0},{5.0,6.0,9.0,1.0}};
 	double test2 [][] = {{5,8,3,2},{3,4,1,5},{2,8,7,4}};
 	double test3 [][] = {{3,2,2,2},{2,3,2,2},{2,2,3,2}};
+	double test4 [][] = {{8.0,-3.0,3.0,3.0},{4.0,-1.0,7.0,-3.0},{3.0,3.0,-9.0,-6.0},{-6.0,-8.0,3.0,-3.0}};
 	int var = 0, gleich = 0, bereit = 0;
 	
 	public GUI() 

@@ -6,7 +6,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FKT
 {
 	int max = 0;
+	boolean loesbar = false;
 	Random r = new Random();
+	
 	double[][] Fuellen (int x, int y) 
 	{
 		double[][] matrize = new double[y][x+1];
@@ -124,8 +126,23 @@ public class FKT
 			}
 			System.out.println("Die Loesung ist:\n");
 			Ausgabe(matrize);
+			//Ueberpruefen auf Nullzeile
+			for(int zeilen = 0; zeilen < matrize.length; zeilen++) 
+			{
+				for(int spalten = 0; spalten < matrize[0].length-1; spalten++) 
+				{
+					if((matrize[zeilen][spalten]) == 0.0) 
+					{
+						loesbar = false;
+					}
+					else 
+					{
+						loesbar = true;
+					}
+				}
+			}
 			//Rest des Gauss Jordan
-			if(var >= gleich) 
+			if(var >= gleich && loesbar) 
 			{
 				//Zuletzt veraendert(keine globale variable mehr)
 				int max2 = matrize.length+1;
@@ -146,6 +163,9 @@ public class FKT
 				}
 				System.out.println("Die Loesung ist:\n");
 				Ausgabe(matrize); 
+			}
+			else {
+				System.out.println("Das Gleichungsystem ist unloesbar");
 			}
 		}
 	}
