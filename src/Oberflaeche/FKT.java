@@ -55,7 +55,7 @@ public class FKT
 	{
 		if (var==1 && gleich==1) 
 		{
-			System.out.println("Die Loesung ist:\n");
+			System.out.println("Die Lösung ist:\n");
 			Ausgabe(matrize);
 		}
 		else 
@@ -124,7 +124,7 @@ public class FKT
 					}
 				}
 			}
-			System.out.println("Die Loesung ist:\n");
+			System.out.println("Die Lösung ist:\n");
 			Ausgabe(matrize);
 			//Ueberpruefen auf Nullzeile
 			for(int zeilen = 0; zeilen < matrize.length; zeilen++) 
@@ -161,11 +161,11 @@ public class FKT
 						Ausgabe(matrize);
 					}
 				}
-				System.out.println("Die Loesung ist:\n");
+				System.out.println("Die Lösung ist:\n");
 				Ausgabe(matrize); 
 			}
 			else {
-				System.out.println("Das Gleichungsystem ist unloesbar");
+				System.out.println("Das Gleichungsystem ist unlösbar");
 			}
 		}
 	}

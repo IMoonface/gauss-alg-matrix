@@ -69,21 +69,21 @@ public class GUI extends JFrame
 		variable.setBounds(340, 40, 100, 20);
 		variable.setEnabled(false);
 		variable.addActionListener(new ActionHandler());
-		variable.setToolTipText("Druecken Sie, um die Anzahl der Variablen zu bestaetigen");
+		variable.setToolTipText("Drücken Sie, um die Anzahl der Variablen zu bestätigen");
 		panel.add(variable);
 		
 		gleichung = new JButton("Gleichungen");
 		gleichung.setBounds(340, 100, 110, 20);
 		gleichung.setEnabled(false);
 		gleichung.addActionListener(new ActionHandler());
-		gleichung.setToolTipText("Druecken Sie, um die Anzahl der Gleichungen zu bestaetigen");
+		gleichung.setToolTipText("Drücken Sie, um die Anzahl der Gleichungen zu bestätigen");
 		panel.add(gleichung);
 		
-		loesen = new JButton("Loesen");
+		loesen = new JButton("Lösen");
 		loesen.setBounds(300, 160, 110, 20);
 		loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
-		loesen.setToolTipText("Druecken Sie, um den Gauss-Jordan-Algorithmus auszufuehren");
+		loesen.setToolTipText("Drücken Sie, um den Gauß-Jordan-Algorithmus auszufuehren");
 		panel.add(loesen);
 		
 		eingabeVar = new JTextField();
@@ -100,7 +100,7 @@ public class GUI extends JFrame
 		eingabeGlei.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
 		panel.add(eingabeGlei);
 		
-		erklaerung = new JLabel("Dies ist Programm zur Ausfuehrung des Gauss Jordan Algorithmus");
+		erklaerung = new JLabel("Dies ist Programm zur Ausführung des Gauß Jordan Algorithmus");
 		erklaerung.setBounds(10, 260, 450, 100);
 		panel.add(erklaerung);
 		
