@@ -317,6 +317,7 @@ public class GUI extends JFrame
 					//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
 					if(!((zeichen >= '1') && (zeichen <= '9'))) 
 					{
+						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen zwischen 0 und 10 eingeben!");
 						eingabeVar.setText("");
 					}
 				}	
@@ -328,8 +329,9 @@ public class GUI extends JFrame
 				if(laenge > 0) 
 				{
 					char zeichen = text.charAt(laenge-1);
-					if(!((zeichen >= '1') && (zeichen <= '9'))) 
+					if(!((zeichen >= '0') && (zeichen <= '9'))) 
 					{
+						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen zwischen 0 und 10 eingeben!");
 						eingabeGlei.setText("");
 					}
 				}
