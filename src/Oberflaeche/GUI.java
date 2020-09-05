@@ -1,5 +1,6 @@
 package Oberflaeche;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -7,6 +8,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,6 +35,8 @@ public class GUI extends JFrame
 	JTextField eingabeVar;
 	JTextField eingabeGlei;
 	JLabel erklaerung;
+	ImageIcon icon;
+	Image logo;
 	double koeff [][];
 	/*
 	//Nur zum Testen
@@ -45,10 +50,15 @@ public class GUI extends JFrame
 	public GUI() 
 	{
 		setLayout(null);
+		setFocusable(true);
 		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(0, 0, 500, 350);
 		add(panel);
+		
+		icon = new ImageIcon(getClass().getResource("gauss.jpg"));
+		logo = icon.getImage();
+		setIconImage(logo);
 		
 		console = new JTextArea();
 		console.setEditable(false);
@@ -69,21 +79,21 @@ public class GUI extends JFrame
 		variable.setBounds(340, 40, 100, 20);
 		variable.setEnabled(false);
 		variable.addActionListener(new ActionHandler());
-		variable.setToolTipText("Drücken Sie, um die Anzahl der Variablen zu bestätigen");
+		variable.setToolTipText("Klicken Sie hier, um diese Anzahl an Variablen zu erzeugen!");
 		panel.add(variable);
 		
 		gleichung = new JButton("Gleichungen");
 		gleichung.setBounds(340, 100, 110, 20);
 		gleichung.setEnabled(false);
 		gleichung.addActionListener(new ActionHandler());
-		gleichung.setToolTipText("Drücken Sie, um die Anzahl der Gleichungen zu bestätigen");
+		gleichung.setToolTipText("Klicken Sie hier, um diese Anzahl an Gleichungen zu erzeugen!");
 		panel.add(gleichung);
 		
-		loesen = new JButton("Lösen");
-		loesen.setBounds(300, 160, 110, 20);
+		loesen = new JButton("Ergebnis");
+		loesen.setBounds(300, 150, 110, 20);
 		loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
-		loesen.setToolTipText("Drücken Sie, um den Gauß-Jordan-Algorithmus auszufuehren");
+		loesen.setToolTipText("Klicken Sie, um den Gauss-Jordan-Algorithmus anzuwenden!");
 		panel.add(loesen);
 		
 		eingabeVar = new JTextField();
@@ -100,18 +110,19 @@ public class GUI extends JFrame
 		eingabeGlei.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
 		panel.add(eingabeGlei);
 		
-		erklaerung = new JLabel("Dies ist Programm zur Ausführung des Gauß Jordan Algorithmus");
+		erklaerung = new JLabel("Dies ist Programm zur Anwendung des Gauss Jordan Algorithmus");
 		erklaerung.setBounds(10, 260, 450, 100);
 		panel.add(erklaerung);
 		
 		hinweis = new JTextPane();
-		hinweis.setText("Hinweis:\nDie Ergebnisse werden auf 3 Nachkommastellen gerundet, somit können kleine Ungenauigkeiten auftreten.");
+		hinweis.setText("Hinweis:\nDas Ergebnis wird auf 3 Nachkommastellen gerundet. Es kann zu kleinen Ungenauigkeiten kommen.");
 		hinweis.setBackground(getContentPane().getBackground());
 		hinweis.setBounds(300, 190, 150, 100);
 		hinweis.setEditable(false);
 		panel.add(hinweis);
 		
 		addWindowListener(new WindowHandler());
+		addKeyListener(new KeyHandler());
 	}
 	//extends, damit ActionHandler die Funktionen aus FKT nutzen kann 
 	private class ActionHandler extends FKT implements ActionListener 
@@ -131,6 +142,7 @@ public class GUI extends JFrame
 					Ausgabe(koeff);
 					loesen.setEnabled(true);
 				}
+				variable.setFocusable(false);
 			}		
 			if (a.getSource()==gleichung) 
 			{
@@ -145,11 +157,13 @@ public class GUI extends JFrame
 					Ausgabe(koeff);
 					loesen.setEnabled(true);
 				}
+				gleichung.setFocusable(false);
 			}		
 			if (a.getSource()==loesen) 
 			{
 				gaussAlg(koeff, var, gleich);
 				loesen.setEnabled(false);
+				loesen.setFocusable(false);
 			}
 		}
 	}
@@ -229,7 +243,12 @@ public class GUI extends JFrame
 		@Override
 		public void keyPressed(KeyEvent e) 
 		{
-			
+			if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_G) 
+			{
+				EasterEgg dialogEast = new EasterEgg(GUI.this);
+				dialogEast.setLocationRelativeTo(GUI.this);
+				dialogEast.setVisible(true);
+			}
 		}
 	}
 	
