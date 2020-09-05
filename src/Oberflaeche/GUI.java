@@ -87,21 +87,21 @@ public class GUI extends JFrame
 		positiv.setBounds(335, 65, 38, 25);
 		positiv.setEnabled(false);
 		positiv.addItemListener(new ItemHandler());
-		positiv.setToolTipText("Generiert nur positive Zahlen.");
+		positiv.setToolTipText("Generiere nur positive Zahlen.");
 		panel.add(positiv);
 		
 		negativ = new JCheckBox("-");
 		negativ.setBounds(370, 65, 38, 25);
 		negativ.setEnabled(false);
 		negativ.addItemListener(new ItemHandler());
-		negativ.setToolTipText("Generiert nur negative Zahlen.");
+		negativ.setToolTipText("Generiere nur negative Zahlen.");
 		panel.add(negativ);
 		
 		mixed = new JCheckBox("+/-");
 		mixed.setBounds(405, 65, 100, 25);
 		mixed.setEnabled(false);
 		mixed.addItemListener(new ItemHandler());
-		mixed.setToolTipText("Generiert positive und negative Zahlen.");
+		mixed.setToolTipText("Generiere positive und negative Zahlen.");
 		panel.add(mixed);
 		
 		gleichung = new JButton("Gleichungen");
@@ -150,13 +150,13 @@ public class GUI extends JFrame
 	private class ActionHandler extends FKT implements ActionListener 
 	{
 		@Override
-		public void actionPerformed(ActionEvent a) 
+		public void actionPerformed(ActionEvent ap) 
 		{
-			if(a.getSource()==variable) 
+			if(ap.getSource()==variable) 
 			{
 				if(modus==0) 
 				{
-					JOptionPane.showMessageDialog(GUI.this, "Bitte geben sie den Modus an!");
+					JOptionPane.showMessageDialog(GUI.this, "Bitte geben sie einen Modus an!");
 				}
 				else 
 				{
@@ -173,7 +173,7 @@ public class GUI extends JFrame
 					variable.setFocusable(false);
 				}
 			}		
-			if (a.getSource()==gleichung) 
+			if (ap.getSource()==gleichung) 
 			{
 				gleich = Integer.valueOf(String.valueOf(eingabeGlei.getText()));
 				gleiBereit = true;
@@ -188,7 +188,7 @@ public class GUI extends JFrame
 				}
 				gleichung.setFocusable(false);
 			}		
-			if (a.getSource()==loesen) 
+			if (ap.getSource()==loesen) 
 			{
 				gaussAlg(koeff, var, gleich);
 				loesen.setEnabled(false);
@@ -200,7 +200,7 @@ public class GUI extends JFrame
 	private class CaretHandler implements CaretListener 
 	{
 		@Override
-		public void caretUpdate(CaretEvent a) 
+		public void caretUpdate(CaretEvent cu) 
 		{
 			String e1 = String.valueOf(eingabeVar.getText());
 			e1 = e1.trim();
@@ -220,7 +220,6 @@ public class GUI extends JFrame
 				negativ.setEnabled(true);
 				mixed.setEnabled(true);
 			}
-			
 			if(e2.isEmpty() || e2.length() > 1) 
 			{
 				gleichung.setEnabled(false);
@@ -235,9 +234,9 @@ public class GUI extends JFrame
 	private class ItemHandler implements ItemListener 
 	{
 		@Override
-		public void itemStateChanged(ItemEvent e) 
+		public void itemStateChanged(ItemEvent isc) 
 		{
-			if (e.getSource() == positiv) 
+			if (isc.getSource() == positiv) 
 			{
 				if(positiv.isSelected()) 
 				{
@@ -252,7 +251,7 @@ public class GUI extends JFrame
 					mixed.setEnabled(true);
 				}
 			}
-			if (e.getSource() == negativ) 
+			if (isc.getSource() == negativ) 
 			{
 				if(negativ.isSelected()) 
 				{
@@ -267,7 +266,7 @@ public class GUI extends JFrame
 					mixed.setEnabled(true);
 				}
 			}
-			if (e.getSource() == mixed) 
+			if (isc.getSource() == mixed) 
 			{
 				if(mixed.isSelected()) 
 				{
@@ -288,9 +287,9 @@ public class GUI extends JFrame
 	private class KeyHandler implements KeyListener 
 	{	
 		@Override
-		public void keyReleased(KeyEvent e) 
+		public void keyReleased(KeyEvent kr) 
 		{
-			if(e.getSource() == eingabeVar) 
+			if(kr.getSource() == eingabeVar) 
 			{
 				String text = eingabeVar.getText();
 				int laenge = text.length();
@@ -306,7 +305,7 @@ public class GUI extends JFrame
 					}
 				}	
 			}
-			else if(e.getSource() == eingabeGlei) 
+			else if(kr.getSource() == eingabeGlei) 
 			{
 				String text = eingabeGlei.getText();
 				int laenge = text.length();
@@ -323,15 +322,14 @@ public class GUI extends JFrame
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) 
+		public void keyTyped(KeyEvent kt) 
 		{
-			
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) 
+		public void keyPressed(KeyEvent kp) 
 		{
-			if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_G) 
+			if(kp.isControlDown() && kp.getKeyCode() == KeyEvent.VK_G) 
 			{
 				EasterEgg dialogEast = new EasterEgg(GUI.this);
 				dialogEast.setLocationRelativeTo(GUI.this);
@@ -343,14 +341,14 @@ public class GUI extends JFrame
 	private class WindowHandler implements WindowListener 
 	{
 		@Override
-		public void windowOpened(WindowEvent e) 
-		{
-			
+		public void windowOpened(WindowEvent wo) 
+		{		
 		}
 
 		@Override
-		public void windowClosing(WindowEvent e) 
+		public void windowClosing(WindowEvent wc) 
 		{
+			//was finden um das ganze mit ja und nein statt yes und no zu machen
 			int antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
 			if(antwort == JOptionPane.YES_OPTION) 
 			{
@@ -359,33 +357,28 @@ public class GUI extends JFrame
 		}
 
 		@Override
-		public void windowClosed(WindowEvent e) 
+		public void windowClosed(WindowEvent wcd) 
 		{
-			
 		}
 
 		@Override
-		public void windowIconified(WindowEvent e) 
-		{
-			
+		public void windowIconified(WindowEvent wi) 
+		{	
 		}
 
 		@Override
-		public void windowDeiconified(WindowEvent e) 
+		public void windowDeiconified(WindowEvent wdi) 
 		{
-			
 		}
 
 		@Override
-		public void windowActivated(WindowEvent e) 
+		public void windowActivated(WindowEvent wa) 
 		{
-			
 		}
 		//Gibt an, dass eine Methodendeklaration eine Methodendeklaration in einem Supertyp überschreiben soll.
 		@Override
-		public void windowDeactivated(WindowEvent e) 
-		{
-			
+		public void windowDeactivated(WindowEvent wd) 
+		{	
 		}
 	}
 }
