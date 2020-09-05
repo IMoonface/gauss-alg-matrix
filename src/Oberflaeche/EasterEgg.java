@@ -1,7 +1,6 @@
 package Oberflaeche;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 public class EasterEgg extends JDialog

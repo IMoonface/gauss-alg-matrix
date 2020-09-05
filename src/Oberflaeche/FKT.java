@@ -9,20 +9,39 @@ public class FKT
 	boolean loesbar = false;
 	Random r = new Random();
 	
-	double[][] Fuellen (int x, int y) 
+	double[][] Fuellen (int var, int gleich, int modus) 
 	{
-		double[][] matrize = new double[y][x+1];
+		double[][] matrize = new double[gleich][var+1];
 	    for (int gleichungen = 0; gleichungen < matrize.length; gleichungen++) 
 	    {
 	        for (int variablen = 0; variablen < matrize[0].length; variablen++) 
 	        {
-	        	//ThreadLocalRandom: Ein Zufallszahlengenerator, isoliert zum aktuellen Thread (Macht eig nur Sinn bei Multithreading)
-	        	//Usages of this class should typically be of the form: ThreadLocalRandom.current().nextX(...) (where X is Int, Long, etc)
-	        	//nextLong: Gibt einen zufälligen long-Wert zwischen dem angegebenen Ursprung (erster Para.) und der angegebenen Grenze (zweiter Para.) zurück
-	        	matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
-	        	while(matrize[gleichungen][variablen] == 0.0) 
-	        	{
-	        		matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
+	        	switch(modus) 
+	        	{     	
+	        		case 1: //Nur positive Zufallszahlen
+	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(1, 9);
+		        		while(matrize[gleichungen][variablen] == 0.0) 
+		        		{
+		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(1, 9);
+		        		}
+		        		break;
+	        		case 2: //Nur negative Zufallszahlen
+	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, -1);
+		        		while(matrize[gleichungen][variablen] == 0.0) 
+		        		{
+		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, -1);
+		        		}
+		        		break;
+	        		case 3: //Positive und negative Zufallszahlen
+	        			//ThreadLocalRandom: Ein Zufallszahlengenerator, isoliert zum aktuellen Thread (Macht eig nur Sinn bei Multithreading)
+	    	        	//Usages of this class should typically be of the form: ThreadLocalRandom.current().nextX(...) (where X is Int, Long, etc)
+	    	        	//nextLong: Gibt einen zufälligen long-Wert zwischen dem angegebenen Ursprung (erster Para.) und der angegebenen Grenze (zweiter Para.) zurück
+	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
+		        		while(matrize[gleichungen][variablen] == 0.0) 
+		        		{
+		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
+		        		}
+		        		break;
 	        	}
 	        }
 	    }  

@@ -3,14 +3,16 @@ package Oberflaeche;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,11 +31,9 @@ public class GUI extends JFrame
 	JTextArea console;
 	JTextPane hinweis;
 	JScrollPane scroll;
-	JButton variable;
-	JButton gleichung;
-	JButton loesen;
-	JTextField eingabeVar;
-	JTextField eingabeGlei;
+	JButton variable, gleichung, loesen;
+	JCheckBox positiv, negativ, mixed;
+	JTextField eingabeVar, eingabeGlei;
 	JLabel erklaerung;
 	ImageIcon icon;
 	Image logo;
@@ -45,7 +45,8 @@ public class GUI extends JFrame
 	double test3 [][] = {{3.0,2.0,2.0,2.0},{2.0,3.0,2.0,2.0},{2.0,2.0,3.0,2.0}};
 	double test4 [][] = {{8.0,-3.0,3.0,3.0},{4.0,-1.0,7.0,-3.0},{3.0,3.0,-9.0,-6.0},{-6.0,-8.0,3.0,-3.0}};
 	*/
-	int var = 0, gleich = 0, bereit = 0;
+	int var = 0, gleich = 0, bereit = 0, modus = 0;
+	boolean varBereit = false, gleiBereit = false;
 	
 	public GUI() 
 	{
@@ -81,6 +82,27 @@ public class GUI extends JFrame
 		variable.addActionListener(new ActionHandler());
 		variable.setToolTipText("Klicken Sie hier, um diese Anzahl an Variablen zu erzeugen!");
 		panel.add(variable);
+		
+		positiv = new JCheckBox("+");
+		positiv.setBounds(335, 65, 38, 25);
+		positiv.setEnabled(false);
+		positiv.addItemListener(new ItemHandler());
+		positiv.setToolTipText("Generiert nur positive Zahlen.");
+		panel.add(positiv);
+		
+		negativ = new JCheckBox("-");
+		negativ.setBounds(370, 65, 38, 25);
+		negativ.setEnabled(false);
+		negativ.addItemListener(new ItemHandler());
+		negativ.setToolTipText("Generiert nur negative Zahlen.");
+		panel.add(negativ);
+		
+		mixed = new JCheckBox("+/-");
+		mixed.setBounds(405, 65, 100, 25);
+		mixed.setEnabled(false);
+		mixed.addItemListener(new ItemHandler());
+		mixed.setToolTipText("Generiert positive und negative Zahlen.");
+		panel.add(mixed);
 		
 		gleichung = new JButton("Gleichungen");
 		gleichung.setBounds(340, 100, 110, 20);
@@ -132,27 +154,34 @@ public class GUI extends JFrame
 		{
 			if(a.getSource()==variable) 
 			{
-				var = Integer.valueOf(String.valueOf(eingabeVar.getText()));	
-				bereit += 1;
-				loesen.setEnabled(false);
-				if(bereit % 2 == 0 && var != 0 && gleich != 0) 
+				if(modus==0) 
 				{
-					koeff = Fuellen(var, gleich);
-					System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
-					Ausgabe(koeff);
-					loesen.setEnabled(true);
+					JOptionPane.showMessageDialog(GUI.this, "Bitte geben sie den Modus an!");
 				}
-				variable.setFocusable(false);
+				else 
+				{
+					var = Integer.valueOf(String.valueOf(eingabeVar.getText()));	
+					varBereit = true;
+					loesen.setEnabled(false);
+					if(bereit % 2 == 0 && var != 0 && gleich != 0) 
+					{
+						koeff = Fuellen(var, gleich, modus);
+						System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
+						Ausgabe(koeff);
+						loesen.setEnabled(true);
+					}
+					variable.setFocusable(false);
+				}
 			}		
 			if (a.getSource()==gleichung) 
 			{
 				gleich = Integer.valueOf(String.valueOf(eingabeGlei.getText()));
-				bereit += 1;
+				gleiBereit = true;
 				loesen.setEnabled(false);
-				if(bereit % 2 == 0 && var != 0 && gleich != 0) 
+				if(gleiBereit && varBereit) 
 				{
 					
-					koeff = Fuellen(var, gleich);
+					koeff = Fuellen(var, gleich, modus);
 					System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
 					Ausgabe(koeff);
 					loesen.setEnabled(true);
@@ -180,10 +209,16 @@ public class GUI extends JFrame
 			if(e1.isEmpty() || e1.length() > 1) 
 			{
 				variable.setEnabled(false);
+				positiv.setEnabled(false);
+				negativ.setEnabled(false);
+				mixed.setEnabled(false);
 			}
 			else 
 			{
 				variable.setEnabled(true);
+				positiv.setEnabled(true);
+				negativ.setEnabled(true);
+				mixed.setEnabled(true);
 			}
 			
 			if(e2.isEmpty() || e2.length() > 1) 
@@ -193,6 +228,59 @@ public class GUI extends JFrame
 			else 
 			{
 				gleichung.setEnabled(true);
+			}
+		}	
+	}
+	
+	private class ItemHandler implements ItemListener 
+	{
+		@Override
+		public void itemStateChanged(ItemEvent e) 
+		{
+			if (e.getSource() == positiv) 
+			{
+				if(positiv.isSelected()) 
+				{
+					modus = 1;
+					negativ.setEnabled(false);
+					mixed.setEnabled(false);
+				}
+				else 
+				{
+					modus = 0;
+					negativ.setEnabled(true);
+					mixed.setEnabled(true);
+				}
+			}
+			if (e.getSource() == negativ) 
+			{
+				if(negativ.isSelected()) 
+				{
+					modus = 2;
+					positiv.setEnabled(false);
+					mixed.setEnabled(false);
+				}
+				else 
+				{
+					modus = 0;
+					positiv.setEnabled(true);
+					mixed.setEnabled(true);
+				}
+			}
+			if (e.getSource() == mixed) 
+			{
+				if(mixed.isSelected()) 
+				{
+					modus = 3;
+					positiv.setEnabled(false);
+					negativ.setEnabled(false);
+				}
+				else 
+				{
+					modus = 0;
+					positiv.setEnabled(true);
+					negativ.setEnabled(true);
+				}
 			}
 		}	
 	}
@@ -211,7 +299,7 @@ public class GUI extends JFrame
 					//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
 					char zeichen = text.charAt(laenge-1);
 					//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
-					if (!((zeichen >= '0') && (zeichen <= '9'))) 
+					if (!((zeichen >= '1') && (zeichen <= '9'))) 
 					{
 						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen eingeben!");
 						eingabeVar.setText("");
