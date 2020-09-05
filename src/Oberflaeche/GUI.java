@@ -173,7 +173,7 @@ public class GUI extends JFrame
 					variable.setFocusable(false);
 				}
 			}		
-			if (ap.getSource()==gleichung) 
+			if(ap.getSource()==gleichung) 
 			{
 				gleich = Integer.valueOf(String.valueOf(eingabeGlei.getText()));
 				gleiBereit = true;
@@ -188,7 +188,7 @@ public class GUI extends JFrame
 				}
 				gleichung.setFocusable(false);
 			}		
-			if (ap.getSource()==loesen) 
+			if(ap.getSource()==loesen) 
 			{
 				gaussAlg(koeff, var, gleich);
 				loesen.setEnabled(false);
@@ -236,7 +236,7 @@ public class GUI extends JFrame
 		@Override
 		public void itemStateChanged(ItemEvent isc) 
 		{
-			if (isc.getSource() == positiv) 
+			if(isc.getSource() == positiv) 
 			{
 				if(positiv.isSelected()) 
 				{
@@ -251,7 +251,7 @@ public class GUI extends JFrame
 					mixed.setEnabled(true);
 				}
 			}
-			if (isc.getSource() == negativ) 
+			if(isc.getSource() == negativ) 
 			{
 				if(negativ.isSelected()) 
 				{
@@ -266,7 +266,7 @@ public class GUI extends JFrame
 					mixed.setEnabled(true);
 				}
 			}
-			if (isc.getSource() == mixed) 
+			if(isc.getSource() == mixed) 
 			{
 				if(mixed.isSelected()) 
 				{
@@ -293,12 +293,12 @@ public class GUI extends JFrame
 			{
 				String text = eingabeVar.getText();
 				int laenge = text.length();
-				if (laenge > 0) 
+				if(laenge > 0) 
 				{
 					//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
 					char zeichen = text.charAt(laenge-1);
 					//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
-					if (!((zeichen >= '1') && (zeichen <= '9'))) 
+					if(!((zeichen >= '1') && (zeichen <= '9'))) 
 					{
 						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen eingeben!");
 						eingabeVar.setText("");
@@ -309,10 +309,10 @@ public class GUI extends JFrame
 			{
 				String text = eingabeGlei.getText();
 				int laenge = text.length();
-				if (laenge > 0) 
+				if(laenge > 0) 
 				{
 					char zeichen = text.charAt(laenge-1);
-					if (!((zeichen >= '0') && (zeichen <= '9'))) 
+					if(!((zeichen >= '0') && (zeichen <= '9'))) 
 					{
 						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen eingeben!") ;
 						eingabeGlei.setText("");

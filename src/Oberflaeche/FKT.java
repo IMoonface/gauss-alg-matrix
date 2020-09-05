@@ -9,27 +9,27 @@ public class FKT
 	boolean loesbar = false;
 	Random r = new Random();
 	
-	double[][] Fuellen (int var, int gleich, int modus) 
+	double[][] Fuellen(int var, int gleich, int modus) 
 	{
 		double[][] matrize = new double[gleich][var+1];
-	    for (int gleichungen = 0; gleichungen < matrize.length; gleichungen++) 
+	    for(int gleichungen = 0; gleichungen < matrize.length; gleichungen++) 
 	    {
-	        for (int variablen = 0; variablen < matrize[0].length; variablen++) 
+	        for(int variablen = 0; variablen < matrize[0].length; variablen++) 
 	        {
 	        	switch(modus) 
 	        	{     	
 	        		case 1: //Nur positive Zufallszahlen
-	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(1, 9);
+	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(0, 9);
 		        		while(matrize[gleichungen][variablen] == 0.0) 
 		        		{
-		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(1, 9);
+		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(0, 9);
 		        		}
 		        		break;
 	        		case 2: //Nur negative Zufallszahlen
-	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, -1);
+	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 0);
 		        		while(matrize[gleichungen][variablen] == 0.0) 
 		        		{
-		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, -1);
+		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 0);
 		        		}
 		        		break;
 	        		case 3: //Positive und negative Zufallszahlen
@@ -48,17 +48,17 @@ public class FKT
 		return matrize;
 	}
 	
-	void Ausgabe (double[][] matrize) 
+	void Ausgabe(double[][] matrize) 
 	{	
 	    for(int ausgabeG = 0; ausgabeG < matrize.length; ausgabeG++) 
 		{
 			for(int ausgabeV = 0; ausgabeV <= matrize[0].length-1; ausgabeV++) 
 			{
-				if (ausgabeV < matrize[0].length-2)
+				if(ausgabeV < matrize[0].length-2)
 				{
 					System.out.print(" " + matrize[ausgabeG][ausgabeV] + ",");
 				}
-				if (ausgabeV == matrize[0].length-2) 
+				if(ausgabeV == matrize[0].length-2) 
 				{
 					System.out.print(" " + matrize[ausgabeG][ausgabeV]);
 					System.out.print(" | ");
@@ -70,9 +70,9 @@ public class FKT
 	    System.out.println(); 
 	}
 	
-	void gaussAlg (double[][] matrize, int var, int gleich) 
+	void gaussAlg(double[][] matrize, int var, int gleich) 
 	{
-		if (var==1 && gleich==1) 
+		if(var==1 && gleich==1) 
 		{
 			System.out.println("Das Ergebnis ist:\n");
 			Ausgabe(matrize);
@@ -90,10 +90,10 @@ public class FKT
 			for(int erstesEL = 0; erstesEL < max; erstesEL++) 
 			{
 				double teiler = matrize[erstesEL][erstesEL];
-				if (teiler == 0.0) 
+				if(teiler == 0.0) 
 				{
 					teiler = matrize[erstesEL+1][erstesEL];
-					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
+					for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
 						matrize[erstesEL+1][SpaltenIndex] = runden(matrize[erstesEL+1][SpaltenIndex]/teiler);
 					}
@@ -101,7 +101,7 @@ public class FKT
 					Ausgabe(matrize);
 					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
-						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
+						for(int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
 							double summand = matrize[erstesEL+1][SpaltenIndex2];
 							matrize[spaltenEl-1][SpaltenIndex2] = runden(matrize[spaltenEl-1][SpaltenIndex2]+summand);
@@ -112,7 +112,7 @@ public class FKT
 					//weil die 3te Zeile dann 1 als erstes Element hat muss man die 2 Zeile jetzt negiert draufrechnen
 					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
-						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
+						for(int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
 							double summand = -matrize[erstesEL][SpaltenIndex2];
 							matrize[spaltenEl][SpaltenIndex2] = runden(matrize[spaltenEl][SpaltenIndex2]+summand);
@@ -123,7 +123,7 @@ public class FKT
 				}
 				else 
 				{
-					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
+					for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
 						matrize[erstesEL][SpaltenIndex] = runden(matrize[erstesEL][SpaltenIndex]/teiler);
 					}
@@ -133,7 +133,7 @@ public class FKT
 					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
 						double multi = -matrize[spaltenEl][erstesEL];
-						for (int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
+						for(int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
 						{
 							double summand = matrize[erstesEL][SpaltenIndex2] * multi;
 							matrize[spaltenEl][SpaltenIndex2] = runden(matrize[spaltenEl][SpaltenIndex2]+summand);
@@ -163,15 +163,14 @@ public class FKT
 			//Rest des Gauss Jordan
 			if(var >= gleich && loesbar) 
 			{
-				//Zuletzt veraendert(keine globale variable mehr)
 				int max2 = matrize.length+1;
 				for(int einserSp = matrize.length; einserSp > 1; einserSp--) 
 				{
 					max2--; 
-					for (int einserZL = max2; einserZL >= 2; einserZL--) 
+					for(int einserZL = max2; einserZL >= 2; einserZL--) 
 					{
 						double multi2 = -matrize[einserZL-2][einserSp-1];		
-						for (int SpaltenIndex3 = matrize[0].length; SpaltenIndex3 >= 1; SpaltenIndex3--) 
+						for(int SpaltenIndex3 = matrize[0].length; SpaltenIndex3 >= 1; SpaltenIndex3--) 
 						{
 							double summand2 = matrize[einserSp-1][SpaltenIndex3-1]*multi2;
 							matrize[einserZL-2][SpaltenIndex3-1] = runden(matrize[einserZL-2][SpaltenIndex3-1]+summand2);
@@ -183,8 +182,9 @@ public class FKT
 				System.out.println("Das Ergebnis ist:\n");
 				Ausgabe(matrize); 
 			}
-			else {
-				System.out.println("Das Gleichungsystem ist unloesbar");
+			else 
+			{
+				System.out.println("Das Gleichungsystem ist unloesbar!");
 			}
 		}
 	}
@@ -192,7 +192,7 @@ public class FKT
 	double runden(double wert) 
 	{
 		wert = Math.rint(wert * 1000.0) / 1000.0;
-		if (wert == -0.0) 
+		if(wert == -0.0) 
 		{
 			wert = 0.0; 
 		}
