@@ -13,11 +13,10 @@ public class Impressum extends JDialog
 		setTitle("Impressum");
 		setResizable(false);
 		setModal(true);
-		
 		copyright = new JTextArea("programmed by Marc Uxa, 05.09.2020 \nhttps://github.com/IMoonface");
 		copyright.setBackground(getContentPane().getBackground());
-		add(copyright);
-		
+		add(copyright);	
 		pack();
 	}
 }
+

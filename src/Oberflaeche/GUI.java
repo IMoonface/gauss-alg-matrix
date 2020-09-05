@@ -10,8 +10,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
-import java.util.Locale;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -319,7 +317,6 @@ public class GUI extends JFrame
 					//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
 					if(!((zeichen >= '1') && (zeichen <= '9'))) 
 					{
-						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen eingeben!");
 						eingabeVar.setText("");
 					}
 				}	
@@ -331,9 +328,8 @@ public class GUI extends JFrame
 				if(laenge > 0) 
 				{
 					char zeichen = text.charAt(laenge-1);
-					if(!((zeichen >= '0') && (zeichen <= '9'))) 
+					if(!((zeichen >= '1') && (zeichen <= '9'))) 
 					{
-						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen eingeben!") ;
 						eingabeGlei.setText("");
 					}
 				}
