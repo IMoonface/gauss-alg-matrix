@@ -3,11 +3,11 @@ package Oberflaeche;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
 
-public class EasterEgg extends JDialog
+public class Impressum extends JDialog
 {
 	JTextArea copyright;
 	
-	public EasterEgg(GUI easter) 
+	public Impressum(GUI easter) 
 	{
 		super(easter);
 		setTitle("Impressum");

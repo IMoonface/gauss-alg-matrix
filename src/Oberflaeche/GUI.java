@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
+import java.util.Locale;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -22,6 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
@@ -77,28 +80,28 @@ public class GUI extends JFrame
 		panel.add(scroll);
 		
 		variable = new JButton("Variablen");
-		variable.setBounds(340, 40, 100, 20);
+		variable.setBounds(340, 40, 110, 20);
 		variable.setEnabled(false);
 		variable.addActionListener(new ActionHandler());
 		variable.setToolTipText("Klicken Sie hier, um diese Anzahl an Variablen zu erzeugen!");
 		panel.add(variable);
 		
 		positiv = new JCheckBox("+");
-		positiv.setBounds(335, 65, 38, 25);
+		positiv.setBounds(336, 65, 40, 25);
 		positiv.setEnabled(false);
 		positiv.addItemListener(new ItemHandler());
 		positiv.setToolTipText("Generiere nur positive Zahlen.");
 		panel.add(positiv);
 		
 		negativ = new JCheckBox("-");
-		negativ.setBounds(370, 65, 38, 25);
+		negativ.setBounds(375, 65, 40, 25);
 		negativ.setEnabled(false);
 		negativ.addItemListener(new ItemHandler());
 		negativ.setToolTipText("Generiere nur negative Zahlen.");
 		panel.add(negativ);
 		
 		mixed = new JCheckBox("+/-");
-		mixed.setBounds(405, 65, 100, 25);
+		mixed.setBounds(414, 65, 100, 25);
 		mixed.setEnabled(false);
 		mixed.addItemListener(new ItemHandler());
 		mixed.setToolTipText("Generiere positive und negative Zahlen.");
@@ -157,36 +160,46 @@ public class GUI extends JFrame
 				if(modus==0) 
 				{
 					JOptionPane.showMessageDialog(GUI.this, "Bitte geben sie einen Modus an!");
+					variable.setFocusable(false);
 				}
 				else 
 				{
 					var = Integer.valueOf(String.valueOf(eingabeVar.getText()));	
 					varBereit = true;
 					loesen.setEnabled(false);
-					if(bereit % 2 == 0 && var != 0 && gleich != 0) 
+					if(gleiBereit && varBereit) 
 					{
 						koeff = Fuellen(var, gleich, modus);
 						System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
 						Ausgabe(koeff);
 						loesen.setEnabled(true);
+						loesen.setFocusable(false);
 					}
 					variable.setFocusable(false);
 				}
 			}		
 			if(ap.getSource()==gleichung) 
 			{
-				gleich = Integer.valueOf(String.valueOf(eingabeGlei.getText()));
-				gleiBereit = true;
-				loesen.setEnabled(false);
-				if(gleiBereit && varBereit) 
+				if(modus==0) 
 				{
-					
-					koeff = Fuellen(var, gleich, modus);
-					System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
-					Ausgabe(koeff);
-					loesen.setEnabled(true);
+					JOptionPane.showMessageDialog(GUI.this, "Bitte geben sie einen Modus an!");
+					gleichung.setFocusable(false);
 				}
-				gleichung.setFocusable(false);
+				else 
+				{
+					gleich = Integer.valueOf(String.valueOf(eingabeGlei.getText()));
+					gleiBereit = true;
+					loesen.setEnabled(false);
+					if(gleiBereit && varBereit) 
+					{
+						koeff = Fuellen(var, gleich, modus);
+						System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
+						Ausgabe(koeff);
+						loesen.setEnabled(true);
+						loesen.setFocusable(false);
+					}
+					gleichung.setFocusable(false);
+				}
 			}		
 			if(ap.getSource()==loesen) 
 			{
@@ -209,16 +222,10 @@ public class GUI extends JFrame
 			if(e1.isEmpty() || e1.length() > 1) 
 			{
 				variable.setEnabled(false);
-				positiv.setEnabled(false);
-				negativ.setEnabled(false);
-				mixed.setEnabled(false);
 			}
 			else 
 			{
 				variable.setEnabled(true);
-				positiv.setEnabled(true);
-				negativ.setEnabled(true);
-				mixed.setEnabled(true);
 			}
 			if(e2.isEmpty() || e2.length() > 1) 
 			{
@@ -227,6 +234,12 @@ public class GUI extends JFrame
 			else 
 			{
 				gleichung.setEnabled(true);
+			}
+			if(e1.length() == 1 && e2.length() == 1) 
+			{
+				positiv.setEnabled(true);
+				negativ.setEnabled(true);
+				mixed.setEnabled(true);
 			}
 		}	
 	}
@@ -241,12 +254,14 @@ public class GUI extends JFrame
 				if(positiv.isSelected()) 
 				{
 					modus = 1;
+					positiv.setFocusable(false);
 					negativ.setEnabled(false);
 					mixed.setEnabled(false);
 				}
 				else 
 				{
 					modus = 0;
+					positiv.setFocusable(false);
 					negativ.setEnabled(true);
 					mixed.setEnabled(true);
 				}
@@ -256,12 +271,14 @@ public class GUI extends JFrame
 				if(negativ.isSelected()) 
 				{
 					modus = 2;
+					negativ.setFocusable(false);
 					positiv.setEnabled(false);
 					mixed.setEnabled(false);
 				}
 				else 
 				{
 					modus = 0;
+					negativ.setFocusable(false);
 					positiv.setEnabled(true);
 					mixed.setEnabled(true);
 				}
@@ -271,12 +288,14 @@ public class GUI extends JFrame
 				if(mixed.isSelected()) 
 				{
 					modus = 3;
+					mixed.setFocusable(false);
 					positiv.setEnabled(false);
 					negativ.setEnabled(false);
 				}
 				else 
 				{
 					modus = 0;
+					mixed.setFocusable(false);
 					positiv.setEnabled(true);
 					negativ.setEnabled(true);
 				}
@@ -331,7 +350,7 @@ public class GUI extends JFrame
 		{
 			if(kp.isControlDown() && kp.getKeyCode() == KeyEvent.VK_G) 
 			{
-				EasterEgg dialogEast = new EasterEgg(GUI.this);
+				Impressum dialogEast = new Impressum(GUI.this);
 				dialogEast.setLocationRelativeTo(GUI.this);
 				dialogEast.setVisible(true);
 			}
@@ -348,7 +367,12 @@ public class GUI extends JFrame
 		@Override
 		public void windowClosing(WindowEvent wc) 
 		{
-			//was finden um das ganze mit ja und nein statt yes und no zu machen
+			//UIManager verwaltet das aktuelle Erscheinungsbild
+			//put: Speichert ein Objekt in den Entwicklerstandards. 
+			//Dies wirkt sich nur auf die Standardeinstellungen des Entwicklers aus, nicht auf die Standardeinstellungen für das System oder das Erscheinungsbild was vom UIManager gemanaged wird.
+			UIManager.put("OptionPane.yesButtonText", "Ja");
+			UIManager.put("OptionPane.noButtonText", "Nein");
+			UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
 			int antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
 			if(antwort == JOptionPane.YES_OPTION) 
 			{
