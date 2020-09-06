@@ -116,21 +116,21 @@ public class GUI extends JFrame
 		loesen.setBounds(300, 150, 110, 20);
 		loesen.setEnabled(false);
 		loesen.addActionListener(new ActionHandler());
-		loesen.setToolTipText("Klicken Sie, um den Gauss-Jordan-Algorithmus anzuwenden!");
+		loesen.setToolTipText("Klicken Sie hier, um den Gauss-Jordan-Algorithmus anzuwenden!");
 		panel.add(loesen);
 		
 		eingabeVar = new JTextField();
 		eingabeVar.setBounds(300, 40, 30, 20);
 		eingabeVar.addCaretListener(new CaretHandler());
 		eingabeVar.addKeyListener(new KeyHandler());
-		eingabeVar.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
+		eingabeVar.setToolTipText("Geben Sie hier eine Zahl zwischen 0 und 10 ein!");
 		panel.add(eingabeVar);
 		
 		eingabeGlei = new JTextField();
 		eingabeGlei.setBounds(300, 100, 30, 20);
 		eingabeGlei.addCaretListener(new CaretHandler());
 		eingabeGlei.addKeyListener(new KeyHandler());
-		eingabeGlei.setToolTipText("Geben Sie eine Zahl zwischen 0 und 10 ein!");
+		eingabeGlei.setToolTipText("Geben Sie hier eine Zahl zwischen 0 und 10 ein!");
 		panel.add(eingabeGlei);
 		
 		erklaerung = new JLabel("Dies ist Programm zur Anwendung des Gauss Jordan Algorithmus");
@@ -157,7 +157,7 @@ public class GUI extends JFrame
 			{
 				if(modus==0) 
 				{
-					JOptionPane.showMessageDialog(GUI.this, "Bitte geben sie einen Modus an!");
+					OptionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					variable.setFocusable(false);
 				}
 				else 
@@ -180,7 +180,7 @@ public class GUI extends JFrame
 			{
 				if(modus==0) 
 				{
-					JOptionPane.showMessageDialog(GUI.this, "Bitte geben sie einen Modus an!");
+					OptionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					gleichung.setFocusable(false);
 				}
 				else 
@@ -301,46 +301,27 @@ public class GUI extends JFrame
 		}	
 	}
 	
-	private class KeyHandler implements KeyListener 
+	private class KeyHandler extends FKT implements KeyListener 
 	{	
 		@Override
 		public void keyReleased(KeyEvent kr) 
 		{
 			if(kr.getSource() == eingabeVar) 
 			{
-				String text = eingabeVar.getText();
-				int laenge = text.length();
-				if(laenge > 0) 
-				{
-					//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
-					char zeichen = text.charAt(laenge-1);
-					//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
-					if(!((zeichen >= '1') && (zeichen <= '9'))) 
-					{
-						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen zwischen 0 und 10 eingeben!");
-						eingabeVar.setText("");
-					}
-				}	
+				String textVar = eingabeVar.getText();
+				int laengeVar = textVar.length();
+				textChecken(textVar, laengeVar, eingabeVar, GUI.this);	
 			}
 			else if(kr.getSource() == eingabeGlei) 
 			{
-				String text = eingabeGlei.getText();
-				int laenge = text.length();
-				if(laenge > 0) 
-				{
-					char zeichen = text.charAt(laenge-1);
-					if(!((zeichen >= '0') && (zeichen <= '9'))) 
-					{
-						JOptionPane.showMessageDialog(GUI.this, "Bitte nur Zahlen zwischen 0 und 10 eingeben!");
-						eingabeGlei.setText("");
-					}
-				}
+				String textGlei = eingabeGlei.getText();
+				int laengeGlei = textGlei.length();
+				textChecken(textGlei, laengeGlei, eingabeGlei, GUI.this);
 			}
 		}
 
 		@Override
-		public void keyTyped(KeyEvent kt) 
-		{
+		public void keyTyped(KeyEvent kt) {
 		}
 
 		@Override
@@ -358,8 +339,7 @@ public class GUI extends JFrame
 	private class WindowHandler implements WindowListener 
 	{
 		@Override
-		public void windowOpened(WindowEvent wo) 
-		{		
+		public void windowOpened(WindowEvent wo) {		
 		}
 
 		@Override
@@ -371,6 +351,8 @@ public class GUI extends JFrame
 			UIManager.put("OptionPane.yesButtonText", "Ja");
 			UIManager.put("OptionPane.noButtonText", "Nein");
 			UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
+			
+			//Hier nochmal gucken das geht bestimmt besser
 			int antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
 			if(antwort == JOptionPane.YES_OPTION) 
 			{
@@ -379,28 +361,23 @@ public class GUI extends JFrame
 		}
 
 		@Override
-		public void windowClosed(WindowEvent wcd) 
-		{
+		public void windowClosed(WindowEvent wcd) {
 		}
 
 		@Override
-		public void windowIconified(WindowEvent wi) 
-		{	
+		public void windowIconified(WindowEvent wi) {	
 		}
 
 		@Override
-		public void windowDeiconified(WindowEvent wdi) 
-		{
+		public void windowDeiconified(WindowEvent wdi) {
 		}
 
 		@Override
-		public void windowActivated(WindowEvent wa) 
-		{
+		public void windowActivated(WindowEvent wa) {
 		}
 		//Gibt an, dass eine Methodendeklaration eine Methodendeklaration in einem Supertyp überschreiben soll.
 		@Override
-		public void windowDeactivated(WindowEvent wd) 
-		{	
+		public void windowDeactivated(WindowEvent wd) {	
 		}
 	}
 }

@@ -2,6 +2,10 @@ package Oberflaeche;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class FKT
 {
@@ -109,7 +113,7 @@ public class FKT
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
 						Ausgabe(matrize);
 					}
-					//weil die 3te Zeile dann 1 als erstes Element hat muss man die 2 Zeile jetzt negiert draufrechnen
+					//weil die 3te Zeile 1 als erstes Element hat muss man die 2 Zeile jetzt negiert draufrechnen
 					for(int spaltenEl = erstesEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
 						for(int SpaltenIndex2 = 0; SpaltenIndex2 < matrize[0].length; SpaltenIndex2++) 
@@ -188,14 +192,37 @@ public class FKT
 			}
 		}
 	}
-	//Probleme beim runden noch fixen
+	
 	double runden(double wert) 
 	{
-		wert = Math.rint(wert * 1000.0) / 1000.0;
+		wert = Math.rint(wert*1000.0)/1000.0;
 		if(wert == -0.0) 
 		{
 			wert = 0.0; 
 		}
 		return wert;
+	}
+	
+	void OptionPane(String nachricht, JFrame frame) 
+	{
+		JOptionPane pane = new JOptionPane(nachricht, JOptionPane.WARNING_MESSAGE, JOptionPane.OK_OPTION, null, new String[] {"OK"});
+		JDialog dialog = pane.createDialog(frame, "Warnung");
+		dialog.setFocusable(true);
+		dialog.setVisible(true);
+	}
+	
+	void textChecken(String text, int laenge, JTextField eingabe, JFrame frame) 
+	{
+		if(laenge > 0) 
+		{
+			//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
+			char zeichen = text.charAt(laenge-1);
+			//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
+			if(!((zeichen >= '1') && (zeichen <= '9'))) 
+			{
+				OptionPane("Bitte nur Zahlen zwischen 0 und 10 eingeben!", frame);
+				eingabe.setText("");
+			}
+		}
 	}
 }
