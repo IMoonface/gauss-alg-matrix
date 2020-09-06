@@ -2,6 +2,8 @@ package Oberflaeche;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -56,7 +58,7 @@ public class FKT
 	{	
 	    for(int ausgabeG = 0; ausgabeG < matrize.length; ausgabeG++) 
 		{
-			for(int ausgabeV = 0; ausgabeV <= matrize[0].length-1; ausgabeV++) 
+			for(int ausgabeV = 0; ausgabeV < matrize[0].length; ausgabeV++) 
 			{
 				if(ausgabeV < matrize[0].length-2)
 				{
@@ -164,7 +166,7 @@ public class FKT
 					}
 				}
 			}
-			//Rest des Gauss Jordan
+			//Rest
 			if(var >= gleich && loesbar) 
 			{
 				int max2 = matrize.length+1;
@@ -203,10 +205,18 @@ public class FKT
 		return wert;
 	}
 	
+	void vorbereiten(double koeff[][], JButton loesen) 
+	{
+		System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
+		Ausgabe(koeff);
+		loesen.setEnabled(true);
+		loesen.setFocusable(false);
+	}
+	
 	void OptionPane(String nachricht, JFrame frame) 
 	{
 		JOptionPane pane = new JOptionPane(nachricht, JOptionPane.WARNING_MESSAGE, JOptionPane.OK_OPTION, null, new String[] {"OK"});
-		JDialog dialog = pane.createDialog(frame, "Warnung");
+		JDialog dialog = pane.createDialog(frame, "Warnung!");
 		dialog.setFocusable(true);
 		dialog.setVisible(true);
 	}
@@ -220,9 +230,10 @@ public class FKT
 			//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
 			if(!((zeichen >= '1') && (zeichen <= '9'))) 
 			{
-				OptionPane("Bitte nur Zahlen zwischen 0 und 10 eingeben!", frame);
+				OptionPane("Bitte nur Zahlen von 1 bis 9 eingeben!", frame);
 				eingabe.setText("");
 			}
 		}
 	}
+
 }

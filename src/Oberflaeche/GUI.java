@@ -36,7 +36,6 @@ public class GUI extends JFrame
 	JCheckBox positiv, negativ, mixed;
 	JTextField eingabeVar, eingabeGlei;
 	JLabel erklaerung;
-	ImageIcon icon;
 	Image logo;
 	double koeff [][];
 	/*
@@ -53,13 +52,13 @@ public class GUI extends JFrame
 	{
 		setLayout(null);
 		setFocusable(true);
+		
 		panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBounds(0, 0, 500, 350);
+		panel.setBounds(0, 0, 480, 370);
 		add(panel);
 		
-		icon = new ImageIcon(getClass().getResource("gauss.jpg"));
-		logo = icon.getImage();
+		logo = (new ImageIcon(getClass().getResource("gauss.jpg"))).getImage();
 		setIconImage(logo);
 		
 		console = new JTextArea();
@@ -123,17 +122,17 @@ public class GUI extends JFrame
 		eingabeVar.setBounds(300, 40, 30, 20);
 		eingabeVar.addCaretListener(new CaretHandler());
 		eingabeVar.addKeyListener(new KeyHandler());
-		eingabeVar.setToolTipText("Geben Sie hier eine Zahl zwischen 0 und 10 ein!");
+		eingabeVar.setToolTipText("Geben Sie hier eine Zahl von 1 bis 9 ein!");
 		panel.add(eingabeVar);
 		
 		eingabeGlei = new JTextField();
 		eingabeGlei.setBounds(300, 100, 30, 20);
 		eingabeGlei.addCaretListener(new CaretHandler());
 		eingabeGlei.addKeyListener(new KeyHandler());
-		eingabeGlei.setToolTipText("Geben Sie hier eine Zahl zwischen 0 und 10 ein!");
+		eingabeGlei.setToolTipText("Geben Sie hier eine Zahl von 1 bis 9 ein!");
 		panel.add(eingabeGlei);
 		
-		erklaerung = new JLabel("Dies ist Programm zur Anwendung des Gauss Jordan Algorithmus");
+		erklaerung = new JLabel("Dies ist Programm zur Anwendung des Gauss Jordan Algorithmus.1");
 		erklaerung.setBounds(10, 260, 450, 100);
 		panel.add(erklaerung);
 		
@@ -164,14 +163,10 @@ public class GUI extends JFrame
 				{
 					var = Integer.valueOf(String.valueOf(eingabeVar.getText()));	
 					varBereit = true;
-					loesen.setEnabled(false);
 					if(gleiBereit && varBereit) 
 					{
 						koeff = Fuellen(var, gleich, modus);
-						System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
-						Ausgabe(koeff);
-						loesen.setEnabled(true);
-						loesen.setFocusable(false);
+						vorbereiten(koeff, loesen);
 					}
 					variable.setFocusable(false);
 				}
@@ -187,14 +182,10 @@ public class GUI extends JFrame
 				{
 					gleich = Integer.valueOf(String.valueOf(eingabeGlei.getText()));
 					gleiBereit = true;
-					loesen.setEnabled(false);
 					if(gleiBereit && varBereit) 
 					{
 						koeff = Fuellen(var, gleich, modus);
-						System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
-						Ausgabe(koeff);
-						loesen.setEnabled(true);
-						loesen.setFocusable(false);
+						vorbereiten(koeff, loesen);
 					}
 					gleichung.setFocusable(false);
 				}
@@ -213,10 +204,8 @@ public class GUI extends JFrame
 		@Override
 		public void caretUpdate(CaretEvent cu) 
 		{
-			String e1 = String.valueOf(eingabeVar.getText());
-			e1 = e1.trim();
-			String e2 = String.valueOf(eingabeGlei.getText());
-			e2 = e2.trim();
+			String e1 = (String.valueOf(eingabeVar.getText())).trim();
+			String e2 = (String.valueOf(eingabeGlei.getText())).trim();
 			if(e1.isEmpty() || e1.length() > 1) 
 			{
 				variable.setEnabled(false);
@@ -259,7 +248,6 @@ public class GUI extends JFrame
 				else 
 				{
 					modus = 0;
-					positiv.setFocusable(false);
 					negativ.setEnabled(true);
 					mixed.setEnabled(true);
 				}
@@ -276,7 +264,6 @@ public class GUI extends JFrame
 				else 
 				{
 					modus = 0;
-					negativ.setFocusable(false);
 					positiv.setEnabled(true);
 					mixed.setEnabled(true);
 				}
@@ -293,7 +280,6 @@ public class GUI extends JFrame
 				else 
 				{
 					modus = 0;
-					mixed.setFocusable(false);
 					positiv.setEnabled(true);
 					negativ.setEnabled(true);
 				}
@@ -308,15 +294,11 @@ public class GUI extends JFrame
 		{
 			if(kr.getSource() == eingabeVar) 
 			{
-				String textVar = eingabeVar.getText();
-				int laengeVar = textVar.length();
-				textChecken(textVar, laengeVar, eingabeVar, GUI.this);	
+				textChecken(eingabeVar.getText(), eingabeVar.getText().length(), eingabeVar, GUI.this);	
 			}
 			else if(kr.getSource() == eingabeGlei) 
 			{
-				String textGlei = eingabeGlei.getText();
-				int laengeGlei = textGlei.length();
-				textChecken(textGlei, laengeGlei, eingabeGlei, GUI.this);
+				textChecken(eingabeGlei.getText(), eingabeGlei.getText().length(), eingabeGlei, GUI.this);
 			}
 		}
 
@@ -351,7 +333,6 @@ public class GUI extends JFrame
 			UIManager.put("OptionPane.yesButtonText", "Ja");
 			UIManager.put("OptionPane.noButtonText", "Nein");
 			UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-			
 			//Hier nochmal gucken das geht bestimmt besser
 			int antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
 			if(antwort == JOptionPane.YES_OPTION) 
