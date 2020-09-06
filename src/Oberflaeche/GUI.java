@@ -13,6 +13,7 @@ import java.io.PrintStream;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,20 +23,24 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 public class GUI extends JFrame
 {
+	//Versions ID: Zum Unterscheiden der Klasse GUI
+	private static final long serialVersionUID = 1L;
+	
 	JPanel panel;
 	JTextArea console;
 	JTextPane hinweis;
 	JScrollPane scroll;
-	JButton variable, gleichung, loesen;
+	JButton variable, gleichung, loesen, ja, nein;
 	JCheckBox positiv, negativ, mixed;
 	JTextField eingabeVar, eingabeGlei;
 	JLabel erklaerung;
+	JDialog dialog;
+	JOptionPane pane;
 	Image logo;
 	double koeff [][];
 	/*
@@ -46,7 +51,7 @@ public class GUI extends JFrame
 	double test4 [][] = {{8.0,-3.0,3.0,3.0},{4.0,-1.0,7.0,-3.0},{3.0,3.0,-9.0,-6.0},{-6.0,-8.0,3.0,-3.0}};
 	*/
 	int var = 0, gleich = 0, bereit = 0, modus = 0;
-	boolean varBereit = false, gleiBereit = false;
+	boolean varBereit = false, gleiBereit = false, angemacht = true;
 	
 	public GUI() 
 	{
@@ -132,7 +137,7 @@ public class GUI extends JFrame
 		eingabeGlei.setToolTipText("Geben Sie hier eine Zahl von 1 bis 9 ein!");
 		panel.add(eingabeGlei);
 		
-		erklaerung = new JLabel("Dies ist Programm zur Anwendung des Gauss Jordan Algorithmus.1");
+		erklaerung = new JLabel("Dies ist Programm zur Anwendung des Gauss Jordan Algorithmus.");
 		erklaerung.setBounds(10, 260, 450, 100);
 		panel.add(erklaerung);
 		
@@ -196,6 +201,15 @@ public class GUI extends JFrame
 				loesen.setEnabled(false);
 				loesen.setFocusable(false);
 			}
+			if(ap.getSource()==ja) 
+			{
+				System.exit(0);
+			}
+			if(ap.getSource()==nein) 
+			{
+				//Gibt alle nativen Bildschirmressourcen frei, die von diesem Fenster, seinen Unterkomponenten und allen eigenen untergeordneten Elementen verwendet werden
+				dialog.dispose();
+			}
 		}
 	}
 	
@@ -222,11 +236,20 @@ public class GUI extends JFrame
 			{
 				gleichung.setEnabled(true);
 			}
-			if(e1.length() == 1 && e2.length() == 1) 
-			{
-				positiv.setEnabled(true);
-				negativ.setEnabled(true);
-				mixed.setEnabled(true);
+			if(angemacht == true) {
+				if(e1.length() == 1 && e2.length() == 1) 
+				{
+					positiv.setEnabled(true);
+					negativ.setEnabled(true);
+					mixed.setEnabled(true);
+					angemacht = false;
+				}
+				else 
+				{
+					positiv.setEnabled(false);
+					negativ.setEnabled(false);
+					mixed.setEnabled(false);
+				}
 			}
 		}	
 	}
@@ -327,18 +350,13 @@ public class GUI extends JFrame
 		@Override
 		public void windowClosing(WindowEvent wc) 
 		{
-			//UIManager verwaltet das aktuelle Erscheinungsbild
-			//put: Speichert ein Objekt in den Entwicklerstandards. 
-			//Dies wirkt sich nur auf die Standardeinstellungen des Entwicklers aus, nicht auf die Standardeinstellungen für das System oder das Erscheinungsbild was vom UIManager gemanaged wird.
-			UIManager.put("OptionPane.yesButtonText", "Ja");
-			UIManager.put("OptionPane.noButtonText", "Nein");
-			UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-			//Hier nochmal gucken das geht bestimmt besser
-			int antwort = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie wirklich beenden?", "Beenden?", JOptionPane.YES_NO_OPTION);
-			if(antwort == JOptionPane.YES_OPTION) 
-			{
-				System.exit(0);
-			}
+			Object[] options = {ja = new JButton("Ja"), nein = new JButton("Nein")};
+			ja.addActionListener(new ActionHandler());
+			nein.addActionListener(new ActionHandler());
+			pane = new JOptionPane("Wollen Sie das Programm wirklich beenden?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION, null, options);
+			dialog = pane.createDialog(GUI.this, "Schließen?");
+			dialog.setFocusable(true);
+			dialog.setVisible(true);
 		}
 
 		@Override

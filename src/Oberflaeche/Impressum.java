@@ -5,6 +5,8 @@ import javax.swing.JTextArea;
 
 public class Impressum extends JDialog
 {
+	//Versions ID: Zum Unterscheiden der einzelenen Dialogs
+	private static final long serialVersionUID = 1L;
 	JTextArea copyright;
 	
 	public Impressum(GUI easter) 
