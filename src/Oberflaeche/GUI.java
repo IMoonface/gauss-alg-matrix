@@ -40,7 +40,6 @@ public class GUI extends JFrame
 	JTextField eingabeVar, eingabeGlei;
 	JLabel erklaerung;
 	JDialog dialog;
-	JOptionPane pane;
 	Image logo;
 	double koeff [][];
 	/*
@@ -51,7 +50,7 @@ public class GUI extends JFrame
 	double test4 [][] = {{8.0,-3.0,3.0,3.0},{4.0,-1.0,7.0,-3.0},{3.0,3.0,-9.0,-6.0},{-6.0,-8.0,3.0,-3.0}};
 	*/
 	int var = 0, gleich = 0, bereit = 0, modus = 0;
-	boolean varBereit = false, gleiBereit = false, angemacht = true;
+	boolean varBereit = false, gleiBereit = false, angeklickt = false;
 	
 	public GUI() 
 	{
@@ -236,13 +235,13 @@ public class GUI extends JFrame
 			{
 				gleichung.setEnabled(true);
 			}
-			if(angemacht == true) {
+			if(angeklickt == false) 
+			{
 				if(e1.length() == 1 && e2.length() == 1) 
 				{
 					positiv.setEnabled(true);
 					negativ.setEnabled(true);
 					mixed.setEnabled(true);
-					angemacht = false;
 				}
 				else 
 				{
@@ -267,12 +266,14 @@ public class GUI extends JFrame
 					positiv.setFocusable(false);
 					negativ.setEnabled(false);
 					mixed.setEnabled(false);
+					angeklickt = true;
 				}
 				else 
 				{
 					modus = 0;
 					negativ.setEnabled(true);
 					mixed.setEnabled(true);
+					angeklickt = false;
 				}
 			}
 			if(isc.getSource() == negativ) 
@@ -283,12 +284,14 @@ public class GUI extends JFrame
 					negativ.setFocusable(false);
 					positiv.setEnabled(false);
 					mixed.setEnabled(false);
+					angeklickt = true;
 				}
 				else 
 				{
 					modus = 0;
 					positiv.setEnabled(true);
 					mixed.setEnabled(true);
+					angeklickt = false;
 				}
 			}
 			if(isc.getSource() == mixed) 
@@ -299,12 +302,14 @@ public class GUI extends JFrame
 					mixed.setFocusable(false);
 					positiv.setEnabled(false);
 					negativ.setEnabled(false);
+					angeklickt = true;
 				}
 				else 
 				{
 					modus = 0;
 					positiv.setEnabled(true);
 					negativ.setEnabled(true);
+					angeklickt = false;
 				}
 			}
 		}	
@@ -353,8 +358,8 @@ public class GUI extends JFrame
 			Object[] options = {ja = new JButton("Ja"), nein = new JButton("Nein")};
 			ja.addActionListener(new ActionHandler());
 			nein.addActionListener(new ActionHandler());
-			pane = new JOptionPane("Wollen Sie das Programm wirklich beenden?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION, null, options);
-			dialog = pane.createDialog(GUI.this, "Schließen?");
+			JOptionPane schliessen = new JOptionPane("Wollen Sie das Programm wirklich beenden?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION, null, options);
+			dialog = schliessen.createDialog(GUI.this, "Schließen?");
 			dialog.setFocusable(true);
 			dialog.setVisible(true);
 		}

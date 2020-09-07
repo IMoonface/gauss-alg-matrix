@@ -215,7 +215,7 @@ public class FKT
 	
 	void OptionPane(String nachricht, JFrame frame) 
 	{
-		JOptionPane pane = new JOptionPane(nachricht, JOptionPane.WARNING_MESSAGE, JOptionPane.OK_OPTION, null, new String[] {"OK"});
+		JOptionPane pane = new JOptionPane(nachricht, JOptionPane.INFORMATION_MESSAGE, JOptionPane.OK_OPTION, null, new String[] {"OK"});
 		JDialog dialog = pane.createDialog(frame, "Warnung!");
 		dialog.setFocusable(true);
 		dialog.setVisible(true);
