@@ -1,8 +1,6 @@
 package Oberflaeche;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -10,11 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class FKT
-{
-	int max = 0;
-	boolean loesbar = false;
-	Random r = new Random();
-	
+{	
 	double[][] Fuellen(int var, int gleich, int modus) 
 	{
 		double[][] matrize = new double[gleich][var+1];
@@ -85,6 +79,7 @@ public class FKT
 		}
 		else 
 		{
+			int max = 0;
 			if(var < gleich) 
 			{
 				max = matrize[0].length-1;
@@ -152,6 +147,7 @@ public class FKT
 			System.out.println("Das Ergebnis ist:\n");
 			Ausgabe(matrize);
 			//Ueberpruefen auf Nullzeile
+			boolean loesbar = false;
 			for(int zeilen = 0; zeilen < matrize.length; zeilen++) 
 			{
 				for(int spalten = 0; spalten < matrize[0].length-1; spalten++) 
@@ -227,7 +223,7 @@ public class FKT
 		{
 			//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
 			char zeichen = text.charAt(laenge-1);
-			//Falls zeichen nicht groesser gleich 0 und kleiner gleich 9 ist 
+			//Falls zeichen nicht groesser gleich 1 und kleiner gleich 9 ist 
 			if(!((zeichen >= '1') && (zeichen <= '9'))) 
 			{
 				OptionPane("Bitte nur Zahlen von 1 bis 9 eingeben!", frame);
@@ -235,5 +231,4 @@ public class FKT
 			}
 		}
 	}
-
 }

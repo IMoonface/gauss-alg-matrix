@@ -41,7 +41,7 @@ public class GUI extends JFrame
 	JLabel erklaerung;
 	JDialog dialog;
 	Image logo;
-	double koeff [][];
+	double koeff[][];
 	/*
 	//Nur zum Testen
 	double test [][] = {{5.0,5.0,3.0,7.0},{4.0,4.0,8.0,6.0},{5.0,6.0,9.0,1.0}};
@@ -49,7 +49,7 @@ public class GUI extends JFrame
 	double test3 [][] = {{3.0,2.0,2.0,2.0},{2.0,3.0,2.0,2.0},{2.0,2.0,3.0,2.0}};
 	double test4 [][] = {{8.0,-3.0,3.0,3.0},{4.0,-1.0,7.0,-3.0},{3.0,3.0,-9.0,-6.0},{-6.0,-8.0,3.0,-3.0}};
 	*/
-	int var = 0, gleich = 0, bereit = 0, modus = 0;
+	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false;
 	
 	public GUI() 
