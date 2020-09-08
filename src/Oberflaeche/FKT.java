@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 public class FKT
 {	
 	BigDecimal zero = new BigDecimal(0);
+	
 	BigDecimal[][] Fuellen(int var, int gleich, int modus) 
 	{
 		BigDecimal[][] matrize = new BigDecimal[gleich][var+1];
