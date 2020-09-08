@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 public class FKT
 {	
+	BigDecimal zero = new BigDecimal(0);
 	BigDecimal[][] Fuellen(int var, int gleich, int modus) 
 	{
 		BigDecimal[][] matrize = new BigDecimal[gleich][var+1];
@@ -21,15 +22,18 @@ public class FKT
 	        	switch(modus) 
 	        	{     	
 	        		case 1: //Nur positive Zufallszahlen
+	        			//Uebersetzt einen long-Wert in ein BigDecimal-Objekt mit einer scale von Null (also 0 Stellen hinterm Komma)
 	        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(0, 9));
-		        		while(matrize[gleichungen][variablen] == BigDecimal.valueOf(0))
+	        			//Vergleicht das erste BigDecimal-Onjekt mit dem in der Klammer
+	        			//Zwei BigDecimal-Objekte mit gleichem Wert, aber unterschiedlichem scale (z. B. 2.0 und 2.00) werden bei dieser Methode als gleich angesehen.
+		        		while(matrize[gleichungen][variablen].compareTo(zero) == 0)
 		        		{
 		        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(0, 9));
 		        		}
 		        		break;
 	        		case 2: //Nur negative Zufallszahlen
 	        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 0));
-		        		while(matrize[gleichungen][variablen] == BigDecimal.valueOf(0)) 
+		        		while(matrize[gleichungen][variablen].compareTo(zero) == 0) 
 		        		{
 		        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 0));
 		        		}
@@ -39,7 +43,7 @@ public class FKT
 	    	        	//Usages of this class should typically be of the form: ThreadLocalRandom.current().nextX(...) (where X is Int, Long, etc)
 	    	        	//nextLong: Gibt einen zufälligen long-Wert zwischen dem angegebenen Ursprung (erster Para.) und der angegebenen Grenze (zweiter Para.) zurück
 	        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 9));
-		        		while(matrize[gleichungen][variablen] == BigDecimal.valueOf(0)) 
+		        		while(matrize[gleichungen][variablen].compareTo(zero) == 0) 
 		        		{
 		        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 9));
 		        		}
@@ -93,8 +97,8 @@ public class FKT
 			for(int divisorEL = 0; divisorEL < max; divisorEL++) 
 			{
 				BigDecimal divisor = matrize[divisorEL][divisorEL];
-				//Falls das erste Element eine 0 ist
-				if(divisor == BigDecimal.valueOf(0))
+				//Falls der divisor eine 0 ist
+				if(divisor.compareTo(zero) == 0)
 				{
 					BigDecimal divisor2 = matrize[divisorEL+1][divisorEL];
 					for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
@@ -160,13 +164,13 @@ public class FKT
 			}
 			System.out.println("Das Ergebnis ist:\n");
 			Ausgabe(matrize);
-			//Ueberpruefen auf Nullzeile
 			boolean loesbar = false;
+			//Ueberpruefen auf Nullzeile
 			for(int zeilen = 0; zeilen < matrize.length; zeilen++) 
 			{
 				for(int spalten = 0; spalten < matrize[0].length-1; spalten++) 
 				{
-					if((matrize[zeilen][spalten]) == BigDecimal.valueOf(0)) 
+					if(matrize[zeilen][spalten].compareTo(zero) == 0) 
 					{
 						loesbar = false;
 					}
@@ -207,12 +211,12 @@ public class FKT
 		}
 	}
 	
-	void vorbereiten(BigDecimal koeff[][], JButton loesen) 
+	void vorbereiten(BigDecimal koeff[][], JButton button) 
 	{
 		System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
 		Ausgabe(koeff);
-		loesen.setEnabled(true);
-		loesen.setFocusable(false);
+		button.setEnabled(true);
+		button.setFocusable(false);
 	}
 	
 	void OptionPane(String nachricht, JFrame frame) 

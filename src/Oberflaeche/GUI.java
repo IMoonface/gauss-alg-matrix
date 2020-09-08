@@ -37,7 +37,7 @@ public class GUI extends JFrame
 	JTextArea console;
 	JTextPane hinweis;
 	JScrollPane scroll;
-	JButton variable, gleichung, loesen, ja, nein;
+	JButton variable, gleichung, ergebnis, ja, nein;
 	JCheckBox positiv, negativ, mixed;
 	JTextField eingabeVar, eingabeGlei;
 	JLabel erklaerung;
@@ -46,10 +46,22 @@ public class GUI extends JFrame
 	BigDecimal koeff[][];
 	/*
 	//Nur zum Testen
-	BigDecimal test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
-	BigDecimal test2 [][] = {{5,8,3,2},{3,4,1,5},{2,8,7,4}};
-	BigDecimal test3 [][] = {{3,2,2,2},{2,3,2,2},{2,2,3,2}};
-	BigDecimal test4 [][] = {{8,-3,3,3},{4,-1,7,-3},{3,3,-9,-6},{-6,-8,3,-3}};
+	BigDecimal test1 [][] = {{new BigDecimal(5), new BigDecimal(5), new BigDecimal(3), new BigDecimal(7)},
+							 {new BigDecimal(4), new BigDecimal(4), new BigDecimal(8), new BigDecimal(6)},
+							 {new BigDecimal(5), new BigDecimal(6), new BigDecimal(9), new BigDecimal(1)}};
+	
+	BigDecimal test2 [][] = {{new BigDecimal(5), new BigDecimal(8), new BigDecimal(3), new BigDecimal(2)},
+							 {new BigDecimal(3), new BigDecimal(4), new BigDecimal(1), new BigDecimal(5)},
+							 {new BigDecimal(2), new BigDecimal(8), new BigDecimal(7), new BigDecimal(4)}};
+	
+	BigDecimal test3 [][] = {{new BigDecimal(3), new BigDecimal(2), new BigDecimal(2), new BigDecimal(2)},
+							 {new BigDecimal(2), new BigDecimal(3), new BigDecimal(2), new BigDecimal(2)},
+							 {new BigDecimal(2), new BigDecimal(2), new BigDecimal(3), new BigDecimal(2)}};
+	
+	BigDecimal test4 [][] = {{ new BigDecimal(8), new BigDecimal(-3),  new BigDecimal(3),  new BigDecimal(3)},
+							 { new BigDecimal(4), new BigDecimal(-1),  new BigDecimal(7), new BigDecimal(-3)},
+							 { new BigDecimal(3),  new BigDecimal(3), new BigDecimal(-9), new BigDecimal(-6)},
+							 {new BigDecimal(-6), new BigDecimal(-8),  new BigDecimal(3), new BigDecimal(-3)}};
 	*/
 	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false;
@@ -117,12 +129,12 @@ public class GUI extends JFrame
 		gleichung.setToolTipText("Klicken Sie hier, um diese Anzahl an Gleichungen zu erzeugen!");
 		panel.add(gleichung);
 		
-		loesen = new JButton("Ergebnis");
-		loesen.setBounds(300, 150, 110, 20);
-		loesen.setEnabled(false);
-		loesen.addActionListener(new ActionHandler());
-		loesen.setToolTipText("Klicken Sie hier, um den Gauss-Jordan-Algorithmus anzuwenden!");
-		panel.add(loesen);
+		ergebnis = new JButton("Ergebnis");
+		ergebnis.setBounds(300, 150, 110, 20);
+		ergebnis.setEnabled(false);
+		ergebnis.addActionListener(new ActionHandler());
+		ergebnis.setToolTipText("Klicken Sie hier, um den Gauss-Jordan-Algorithmus anzuwenden!");
+		panel.add(ergebnis);
 		
 		eingabeVar = new JTextField();
 		eingabeVar.setBounds(300, 40, 30, 20);
@@ -158,9 +170,9 @@ public class GUI extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent ap) 
 		{
-			if(ap.getSource()==variable) 
+			if(ap.getSource() == variable) 
 			{
-				if(modus==0) 
+				if(modus == 0) 
 				{
 					OptionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					variable.setFocusable(false);
@@ -172,14 +184,14 @@ public class GUI extends JFrame
 					if(gleiBereit && varBereit) 
 					{
 						koeff = Fuellen(var, gleich, modus);
-						vorbereiten(koeff, loesen);
+						vorbereiten(koeff, ergebnis);
 					}
 					variable.setFocusable(false);
 				}
 			}		
-			if(ap.getSource()==gleichung) 
+			if(ap.getSource() == gleichung) 
 			{
-				if(modus==0) 
+				if(modus == 0) 
 				{
 					OptionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					gleichung.setFocusable(false);
@@ -191,22 +203,22 @@ public class GUI extends JFrame
 					if(gleiBereit && varBereit) 
 					{
 						koeff = Fuellen(var, gleich, modus);
-						vorbereiten(koeff, loesen);
+						vorbereiten(koeff, ergebnis);
 					}
 					gleichung.setFocusable(false);
 				}
 			}		
-			if(ap.getSource()==loesen) 
+			if(ap.getSource() == ergebnis) 
 			{
 				gaussAlg(koeff, var, gleich);
-				loesen.setEnabled(false);
-				loesen.setFocusable(false);
+				ergebnis.setEnabled(false);
+				ergebnis.setFocusable(false);
 			}
-			if(ap.getSource()==ja) 
+			if(ap.getSource() == ja) 
 			{
 				System.exit(0);
 			}
-			if(ap.getSource()==nein) 
+			if(ap.getSource() == nein) 
 			{
 				//Gibt alle nativen Bildschirmressourcen frei, die von diesem Fenster, seinen Unterkomponenten und allen eigenen untergeordneten Elementen verwendet werden
 				dialog.dispose();
@@ -326,7 +338,7 @@ public class GUI extends JFrame
 			{
 				textChecken(eingabeVar.getText(), eingabeVar.getText().length(), eingabeVar, GUI.this);	
 			}
-			else if(kr.getSource() == eingabeGlei) 
+			if(kr.getSource() == eingabeGlei) 
 			{
 				textChecken(eingabeGlei.getText(), eingabeGlei.getText().length(), eingabeGlei, GUI.this);
 			}
