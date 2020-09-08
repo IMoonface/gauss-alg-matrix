@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -41,13 +43,13 @@ public class GUI extends JFrame
 	JLabel erklaerung;
 	JDialog dialog;
 	Image logo;
-	double koeff[][];
+	BigDecimal koeff[][];
 	/*
 	//Nur zum Testen
-	double test [][] = {{5.0,5.0,3.0,7.0},{4.0,4.0,8.0,6.0},{5.0,6.0,9.0,1.0}};
-	double test2 [][] = {{5.0,8.0,3.0,2.0},{3.0,4.0,1.0,5.0},{2.0,8.0,7.0,4.0}};
-	double test3 [][] = {{3.0,2.0,2.0,2.0},{2.0,3.0,2.0,2.0},{2.0,2.0,3.0,2.0}};
-	double test4 [][] = {{8.0,-3.0,3.0,3.0},{4.0,-1.0,7.0,-3.0},{3.0,3.0,-9.0,-6.0},{-6.0,-8.0,3.0,-3.0}};
+	BigDecimal test [][] = {{5,5,3,7},{4,4,8,6},{5,6,9,1}};
+	BigDecimal test2 [][] = {{5,8,3,2},{3,4,1,5},{2,8,7,4}};
+	BigDecimal test3 [][] = {{3,2,2,2},{2,3,2,2},{2,2,3,2}};
+	BigDecimal test4 [][] = {{8,-3,3,3},{4,-1,7,-3},{3,3,-9,-6},{-6,-8,3,-3}};
 	*/
 	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false;
