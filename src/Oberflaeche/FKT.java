@@ -193,11 +193,7 @@ public class FKT
 	
 	double runden(double wert) 
 	{
-		wert = Math.rint(wert*1000.0)/1000.0;
-		if(wert == -0.0) 
-		{
-			wert = 0.0; 
-		}
+		wert = Math.round(wert*1000.0)/1000.0;
 		return wert;
 	}
 	
