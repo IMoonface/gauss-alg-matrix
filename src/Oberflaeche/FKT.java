@@ -198,6 +198,7 @@ public class FKT
 			}
 		}
 	}
+	
 	double runden(double wert) 
 	{
 		wert = Math.round(wert * 1000.0) / 1000.0;
