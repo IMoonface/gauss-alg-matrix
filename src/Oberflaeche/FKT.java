@@ -114,10 +114,6 @@ public class FKT
 						{
 							double summand = matrize[divisorEL+1][SpaltenIndex];
 							matrize[spaltenEl-1][SpaltenIndex] = runden(matrize[spaltenEl-1][SpaltenIndex] + summand);
-							if(matrize[spaltenEl-1][SpaltenIndex]-(Math.round(matrize[spaltenEl-1][SpaltenIndex])) <= 0.005 && matrize[spaltenEl-1][SpaltenIndex]-(Math.round(matrize[spaltenEl-1][SpaltenIndex])) > 0 || matrize[spaltenEl-1][SpaltenIndex]-(Math.round(matrize[spaltenEl-1][SpaltenIndex])) >= -0.005 && matrize[spaltenEl-1][SpaltenIndex]-(Math.round(matrize[spaltenEl-1][SpaltenIndex])) < 0) 
-							{
-								matrize[spaltenEl-1][SpaltenIndex] = Math.round(matrize[spaltenEl-1][SpaltenIndex]);
-							}
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -129,12 +125,8 @@ public class FKT
 						{
 							double summand = -matrize[divisorEL][SpaltenIndex];
 							matrize[spaltenEl][SpaltenIndex] = runden(matrize[spaltenEl][SpaltenIndex] + summand);
-							if(matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) <= 0.005 && matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) > 0 || matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) >= -0.005 && matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) < 0) 
-							{
-								matrize[spaltenEl][SpaltenIndex] = Math.round(matrize[spaltenEl][SpaltenIndex]);
-							}
 						}
-						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
+						System.out.println("Multipliziere mit: -1" + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
 						Ausgabe(matrize);
 					}
 				}
@@ -154,10 +146,6 @@ public class FKT
 						{
 							double summand = matrize[divisorEL][SpaltenIndex] * multi;
 							matrize[spaltenEl][SpaltenIndex] = runden(matrize[spaltenEl][SpaltenIndex] + summand);
-							if(matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) <= 0.005 && matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) > 0 || matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) >= -0.005 && matrize[spaltenEl][SpaltenIndex]-(Math.round(matrize[spaltenEl][SpaltenIndex])) < 0) 
-							{
-								matrize[spaltenEl][SpaltenIndex] = Math.round(matrize[spaltenEl][SpaltenIndex]);
-							}
 						}
 						System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -196,10 +184,6 @@ public class FKT
 						{
 							double summand = matrize[einserSp-1][SpaltenIndex-1] * multi;
 							matrize[einserZL-2][SpaltenIndex-1] = runden(matrize[einserZL-2][SpaltenIndex-1] + summand);
-							if(matrize[einserZL-2][SpaltenIndex-1]-(Math.round(matrize[einserZL-2][SpaltenIndex-1])) <= 0.005 && matrize[einserZL-2][SpaltenIndex-1]-(Math.round(matrize[einserZL-2][SpaltenIndex-1])) > 0 || matrize[einserZL-2][SpaltenIndex-1]-(Math.round(matrize[einserZL-2][SpaltenIndex-1])) >= -0.005 && matrize[einserZL-2][SpaltenIndex-1]-(Math.round(matrize[einserZL-2][SpaltenIndex-1])) < 0) 
-							{
-								matrize[einserZL-2][SpaltenIndex-1] = Math.round(matrize[einserZL-2][SpaltenIndex-1]);
-							}
 						}
 						System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (einserZL-1) + ". Zeile\n");
 						Ausgabe(matrize);
@@ -214,10 +198,13 @@ public class FKT
 			}
 		}
 	}
-	
 	double runden(double wert) 
 	{
 		wert = Math.round(wert * 1000.0) / 1000.0;
+		if(wert-(Math.round(wert)) <= 0.005 && wert-(Math.round(wert)) > 0 || wert-(Math.round(wert)) >= -0.005 && wert-(Math.round(wert)) < 0) 
+		{
+			wert = Math.round(wert);
+		}
 		return wert;
 	}
 	
