@@ -94,7 +94,7 @@ public class FKT
 			for(int divisorEL = 0; divisorEL < max; divisorEL++) 
 			{
 				double divisor = matrize[divisorEL][divisorEL];
-				//Falls der divisor eine 0 ist und nicht in der letzten Zeile steht
+				//Falls der divisor eine 0 ist und in der letzten Zeile steht
 				if(divisor == 0 && divisorEL == max-1) 
 				{
 					break;
