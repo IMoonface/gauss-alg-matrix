@@ -10,7 +10,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
-import java.math.BigDecimal;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -42,25 +41,28 @@ public class GUI extends JFrame
 	JLabel erklaerung;
 	JDialog dialog;
 	Image logo;
-	BigDecimal koeff[][];
+	double koeff[][];
 	/*
 	//Nur zum Testen
-	BigDecimal test1 [][] = {{new BigDecimal(5), new BigDecimal(5), new BigDecimal(3), new BigDecimal(7)},
-							 {new BigDecimal(4), new BigDecimal(4), new BigDecimal(8), new BigDecimal(6)},
-							 {new BigDecimal(5), new BigDecimal(6), new BigDecimal(9), new BigDecimal(1)}};
+	double test [][] = {{5.0,5.0,3.0,7.0},
+						{4.0,4.0,8.0,6.0},
+						{5.0,6.0,9.0,1.0}};
 	
-	BigDecimal test2 [][] = {{new BigDecimal(5), new BigDecimal(8), new BigDecimal(3), new BigDecimal(2)},
-							 {new BigDecimal(3), new BigDecimal(4), new BigDecimal(1), new BigDecimal(5)},
-							 {new BigDecimal(2), new BigDecimal(8), new BigDecimal(7), new BigDecimal(4)}};
+	double test2 [][] = {{5.0,8.0,3.0,2.0},
+						 {3.0,4.0,1.0,5.0},
+						 {2.0,8.0,7.0,4.0}};
 	
-	BigDecimal test3 [][] = {{new BigDecimal(3), new BigDecimal(2), new BigDecimal(2), new BigDecimal(2)},
-							 {new BigDecimal(2), new BigDecimal(3), new BigDecimal(2), new BigDecimal(2)},
-							 {new BigDecimal(2), new BigDecimal(2), new BigDecimal(3), new BigDecimal(2)}};
+	double test3 [][] = {{3.0,2.0,2.0,2.0},
+						 {2.0,3.0,2.0,2.0},
+						 {2.0,2.0,3.0,2.0}};
 	
-	BigDecimal test4 [][] = {{ new BigDecimal(8), new BigDecimal(-3),  new BigDecimal(3),  new BigDecimal(3)},
-							 { new BigDecimal(4), new BigDecimal(-1),  new BigDecimal(7), new BigDecimal(-3)},
-							 { new BigDecimal(3),  new BigDecimal(3), new BigDecimal(-9), new BigDecimal(-6)},
-							 {new BigDecimal(-6), new BigDecimal(-8),  new BigDecimal(3), new BigDecimal(-3)}};
+	double test4 [][] = {{8.0,-3.0,3.0,3.0},
+						 {4.0,-1.0,7.0,-3.0},
+						 {3.0,3.0,-9.0,-6.0},
+						 {-6.0,-8.0,3.0,-3.0}};	
+	
+	double test5 [][] = {{7.0, 1.0, 3.0},
+						 {7.0, 1.0, 3.0}};
 	*/
 	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false;
