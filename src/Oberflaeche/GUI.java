@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -41,7 +43,7 @@ public class GUI extends JFrame
 	JLabel erklaerung;
 	JDialog dialog;
 	Image logo;
-	double koeff[][];
+	BigDecimal koeff[][];
 	/*
 	//Nur zum Testen
 	double test [][] = {{5.0,5.0,3.0,7.0},
@@ -60,12 +62,13 @@ public class GUI extends JFrame
 						 {4.0,-1.0,7.0,-3.0},
 						 {3.0,3.0,-9.0,-6.0},
 						 {-6.0,-8.0,3.0,-3.0}};	
+						 
+	BigDecimal test5 [][] = {{new BigDecimal(7), new BigDecimal(1), new BigDecimal(3)},
+						     {new BigDecimal(7), new BigDecimal(1), new BigDecimal(3)}};
 	
-	double test5 [][] = {{7.0, 1.0, 3.0},
-						 {7.0, 1.0, 3.0}};
 	*/
 	int var = 0, gleich = 0, modus = 0;
-	boolean varBereit = false, gleiBereit = false, angeklickt = false;
+	boolean varBereit = false, gleiBereit = false, angeklickt = false, erstmalig = true;
 	
 	public GUI() 
 	{
@@ -185,7 +188,7 @@ public class GUI extends JFrame
 					if(gleiBereit && varBereit) 
 					{
 						koeff = Fuellen(var, gleich, modus);
-						vorbereiten(koeff, ergebnis);
+						vorbereiten(koeff, ergebnis, erstmalig);
 					}
 					variable.setFocusable(false);
 				}
@@ -204,14 +207,15 @@ public class GUI extends JFrame
 					if(gleiBereit && varBereit) 
 					{
 						koeff = Fuellen(var, gleich, modus);
-						vorbereiten(koeff, ergebnis);
+						vorbereiten(koeff, ergebnis, erstmalig);
 					}
 					gleichung.setFocusable(false);
 				}
 			}		
 			if(ap.getSource() == ergebnis) 
 			{
-				gaussAlg(koeff, var, gleich);
+				erstmalig = false;
+				gaussAlg(koeff, var, gleich, erstmalig);
 				ergebnis.setEnabled(false);
 				ergebnis.setFocusable(false);
 			}

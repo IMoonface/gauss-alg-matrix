@@ -1,5 +1,7 @@
 package Oberflaeche;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -9,9 +11,9 @@ import javax.swing.JTextField;
 
 public class FKT
 {	
-	double[][] Fuellen(int var, int gleich, int modus) 
+	BigDecimal[][] Fuellen(int var, int gleich, int modus) 
 	{
-		double[][] matrize = new double[gleich][var+1];
+		BigDecimal[][] matrize = new BigDecimal[gleich][var+1];
 	    for(int gleichungen = 0; gleichungen < matrize.length; gleichungen++) 
 	    {
 	        for(int variablen = 0; variablen < matrize[0].length; variablen++) 
@@ -19,30 +21,27 @@ public class FKT
 	        	switch(modus) 
 	        	{     	
 	        		case 1: //Nur positive Zufallszahlen
-	        			//Uebersetzt einen long-Wert in ein BigDecimal-Objekt mit einer scale von Null (also 0 Stellen hinterm Komma)
-	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(0, 9);
-	        			//Vergleicht das erste BigDecimal-Onjekt mit dem in der Klammer
-	        			//Zwei BigDecimal-Objekte mit gleichem Wert, aber unterschiedlichem scale (z. B. 2.0 und 2.00) werden bei dieser Methode als gleich angesehen.
-		        		while(matrize[gleichungen][variablen] == 0)
+	        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(0, 9));
+		        		while(matrize[gleichungen][variablen] == BigDecimal.valueOf(0))
 		        		{
-		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(0, 9);
+		        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(0, 9));
 		        		}
 		        		break;
 	        		case 2: //Nur negative Zufallszahlen
-	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 0);
-		        		while(matrize[gleichungen][variablen] == 0) 
+	        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 0));
+		        		while(matrize[gleichungen][variablen] == BigDecimal.valueOf(0)) 
 		        		{
-		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 0);
+		        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 0));
 		        		}
 		        		break;
 	        		case 3: //Positive und negative Zufallszahlen
 	        			//ThreadLocalRandom: Ein Zufallszahlengenerator, isoliert zum aktuellen Thread (Macht eig nur Sinn bei Multithreading)
 	    	        	//Usages of this class should typically be of the form: ThreadLocalRandom.current().nextX(...) (where X is Int, Long, etc)
 	    	        	//nextLong: Gibt einen zufälligen long-Wert zwischen dem angegebenen Ursprung (erster Para.) und der angegebenen Grenze (zweiter Para.) zurück
-	        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
-		        		while(matrize[gleichungen][variablen] == 0) 
+	        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 9));
+		        		while(matrize[gleichungen][variablen] == BigDecimal.valueOf(0)) 
 		        		{
-		        			matrize[gleichungen][variablen] = ThreadLocalRandom.current().nextLong(-9, 9);
+		        			matrize[gleichungen][variablen] = BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(-9, 9));
 		        		}
 		        		break;
 	        	}
@@ -50,22 +49,32 @@ public class FKT
 	    }  
 		return matrize;
 	}
-	
-	void Ausgabe(double[][] matrize) 
+	//erstmalig dient nur dafuer den "Modus" zu entscheiden. Entweder auf 3 Zahlen begrenzt oder einfach normale Ausgabe
+	void Ausgabe(BigDecimal[][] matrize, boolean erstmalig) 
 	{	
 	    for(int ausgabeG = 0; ausgabeG < matrize.length; ausgabeG++) 
 		{
-			for(int ausgabeV = 0; ausgabeV < matrize[0].length; ausgabeV++) 
+			for(int ausgabeV = 0; ausgabeV < matrize[0].length-1; ausgabeV++) 
 			{
-				if(ausgabeV < matrize[0].length-2)
+				if(ausgabeV < matrize[0].length-2 && erstmalig)
 				{
 					System.out.print(" " + matrize[ausgabeG][ausgabeV] + ",");
 				}
-				if(ausgabeV == matrize[0].length-2) 
+				if(ausgabeV == matrize[0].length-2 && erstmalig) 
 				{
 					System.out.print(" " + matrize[ausgabeG][ausgabeV]);
 					System.out.print(" | ");
 					System.out.print(matrize[ausgabeG][ausgabeV+1]);
+				}
+				if(ausgabeV < matrize[0].length-2 && erstmalig == false) 
+				{
+					System.out.print(" " + matrize[ausgabeG][ausgabeV].setScale(3, RoundingMode.HALF_UP) + ",");
+				}
+				if(ausgabeV == matrize[0].length-2 && erstmalig == false) 
+				{
+					System.out.print(" " + matrize[ausgabeG][ausgabeV].setScale(3, RoundingMode.HALF_UP));
+					System.out.print(" | ");
+					System.out.print(matrize[ausgabeG][ausgabeV+1].setScale(3, RoundingMode.HALF_UP));
 				}
 			}
 			System.out.print("\n");
@@ -73,12 +82,12 @@ public class FKT
 	    System.out.println(); 
 	}
 	
-	void gaussAlg(double[][] matrize, int var, int gleich) 
+	void gaussAlg(BigDecimal[][] matrize, int var, int gleich, boolean erstmalig) 
 	{
 		if(var==1 && gleich==1) 
 		{
 			System.out.println("Das Ergebnis ist:\n");
-			Ausgabe(matrize);
+			Ausgabe(matrize, erstmalig);
 		}
 		else 
 		{
@@ -93,74 +102,78 @@ public class FKT
 			}
 			for(int divisorEL = 0; divisorEL < max; divisorEL++) 
 			{
-				double divisor = matrize[divisorEL][divisorEL];
-				//Falls der divisor eine 0 ist und in der letzten Zeile steht
-				if(divisor == 0 && divisorEL == max-1) 
+				BigDecimal divisor = matrize[divisorEL][divisorEL];
+				if(divisor.setScale(3, RoundingMode.HALF_UP).compareTo(BigDecimal.valueOf(0)) == 0 && divisorEL == matrize.length-1) 
 				{
 					break;
 				}
-				else if(divisor == 0 && divisorEL != max-1)
+				else if(divisor.setScale(3, RoundingMode.HALF_UP).compareTo(BigDecimal.valueOf(0)) == 0 && divisorEL != matrize.length-1)
 				{
-					divisor = matrize[divisorEL+1][divisorEL];
+					BigDecimal divisor2 = matrize[divisorEL+1][divisorEL];
 					for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						matrize[divisorEL+1][SpaltenIndex] = runden(matrize[divisorEL+1][SpaltenIndex] / divisor);
+						BigDecimal dividend = matrize[divisorEL+1][SpaltenIndex];
+						//Für hoehere Praezision
+						matrize[divisorEL+1][SpaltenIndex] = dividend.divide(divisor2, 5, RoundingMode.HALF_UP);
 					}
-					System.out.println("Dividiere " + (divisorEL+2) + ". Zeile durch: " + divisor + "\n");
-					Ausgabe(matrize);
+					System.out.println("Dividiere " + (divisorEL+2) + ". Zeile durch: " + divisor2.setScale(3, RoundingMode.HALF_UP) + "\n");
+					Ausgabe(matrize, erstmalig);
 					for(int spaltenEl = divisorEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
 						for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 						{
-							double summand = matrize[divisorEL+1][SpaltenIndex];
-							matrize[spaltenEl-1][SpaltenIndex] = runden(matrize[spaltenEl-1][SpaltenIndex] + summand);
+							BigDecimal summand = matrize[divisorEL+1][SpaltenIndex];
+							//add: Addiert die Zahl in der Klammer drauf
+							matrize[spaltenEl-1][SpaltenIndex] = summand.add(matrize[spaltenEl-1][SpaltenIndex]);
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
-						Ausgabe(matrize);
+						Ausgabe(matrize, erstmalig);
 					}
 					//weil die 3te Zeile 1 als erstes Element hat muss man die 2 Zeile jetzt negiert draufrechnen
 					for(int spaltenEl = divisorEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
 						for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 						{
-							double summand = -matrize[divisorEL][SpaltenIndex];
-							matrize[spaltenEl][SpaltenIndex] = runden(matrize[spaltenEl][SpaltenIndex] + summand);
+							BigDecimal summand = matrize[divisorEL][SpaltenIndex].negate();
+							matrize[spaltenEl][SpaltenIndex] = summand.add(matrize[spaltenEl][SpaltenIndex]);
 						}
-						System.out.println("Multipliziere mit: -1" + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
-						Ausgabe(matrize);
+						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
+						Ausgabe(matrize, erstmalig);
 					}
 				}
 				else 
 				{
 					for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						matrize[divisorEL][SpaltenIndex] = runden(matrize[divisorEL][SpaltenIndex] / divisor);
+						BigDecimal dividend = matrize[divisorEL][SpaltenIndex];
+						//divide: Dividiert die Zahl in der Klammer
+						matrize[divisorEL][SpaltenIndex] = dividend.divide(divisor, 5, RoundingMode.HALF_UP);
 					}
-					System.out.println("Dividiere " + (divisorEL+1) + ". Zeile durch: " + divisor + "\n");
-					Ausgabe(matrize);
+					System.out.println("Dividiere " + (divisorEL+1) + ". Zeile durch: " + divisor.setScale(3, RoundingMode.HALF_UP) + "\n");
+					Ausgabe(matrize, erstmalig);
 					
 					for(int spaltenEl = divisorEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
-						double multi = -matrize[spaltenEl][divisorEL];
+						BigDecimal multi = matrize[spaltenEl][divisorEL].negate();
 						for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 						{
-							double summand = matrize[divisorEL][SpaltenIndex] * multi;
-							matrize[spaltenEl][SpaltenIndex] = runden(matrize[spaltenEl][SpaltenIndex] + summand);
+							BigDecimal summand = multi.multiply(matrize[divisorEL][SpaltenIndex]);
+							matrize[spaltenEl][SpaltenIndex] = summand.add(matrize[spaltenEl][SpaltenIndex]);
 						}
-						System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
-						Ausgabe(matrize);
+						System.out.println("Multipliziere mit: " + multi.setScale(3, RoundingMode.HALF_UP) + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
+						Ausgabe(matrize, erstmalig);
 					}
 				}
 			}
 			System.out.println("Das Ergebnis ist:\n");
-			Ausgabe(matrize);
-			boolean loesbar = false;
+			Ausgabe(matrize, erstmalig);
 			//Ueberpruefen auf Nullzeile
+			boolean loesbar = false;
 			for(int zeilen = 0; zeilen < matrize.length; zeilen++) 
 			{
 				for(int spalten = 0; spalten < matrize[0].length-1; spalten++) 
 				{
-					if(matrize[zeilen][spalten] == 0 && matrize[zeilen][matrize[0].length-1] != 0) 
+					if(matrize[zeilen][spalten] == BigDecimal.valueOf(0) && matrize[zeilen][matrize[0].length-1] != BigDecimal.valueOf(0)) 
 					{
 						loesbar = false;
 					}
@@ -179,18 +192,18 @@ public class FKT
 					max2--; 
 					for(int einserZL = max2; einserZL >= 2; einserZL--) 
 					{
-						double multi = -matrize[einserZL-2][einserSp-1];
+						BigDecimal multi = (matrize[einserZL-2][einserSp-1]).negate();
 						for(int SpaltenIndex = matrize[0].length; SpaltenIndex >= 1; SpaltenIndex--) 
 						{
-							double summand = matrize[einserSp-1][SpaltenIndex-1] * multi;
-							matrize[einserZL-2][SpaltenIndex-1] = runden(matrize[einserZL-2][SpaltenIndex-1] + summand);
+							BigDecimal summand = multi.multiply(matrize[einserSp-1][SpaltenIndex-1]);
+							matrize[einserZL-2][SpaltenIndex-1] = summand.add(matrize[einserZL-2][SpaltenIndex-1]);
 						}
-						System.out.println("Multipliziere mit: " + multi + "\nund addiere mit der " + (einserZL-1) + ". Zeile\n");
-						Ausgabe(matrize);
+						System.out.println("Multipliziere mit: " + multi.setScale(3, RoundingMode.HALF_UP) + "\nund addiere mit der " + (einserZL-1) + ". Zeile\n");
+						Ausgabe(matrize, erstmalig);
 					}
-				}
+				}		
 				System.out.println("Das Ergebnis ist:\n");
-				Ausgabe(matrize); 
+				Ausgabe(matrize, erstmalig); 
 			}
 			else 
 			{
@@ -199,20 +212,10 @@ public class FKT
 		}
 	}
 	
-	double runden(double wert) 
-	{
-		wert = Math.round(wert * 1000.0) / 1000.0;
-		if(wert-(Math.round(wert)) <= 0.005 && wert-(Math.round(wert)) > 0 || wert-(Math.round(wert)) >= -0.005 && wert-(Math.round(wert)) < 0) 
-		{
-			wert = Math.round(wert);
-		}
-		return wert;
-	}
-	
-	void vorbereiten(double koeff[][], JButton button) 
+	void vorbereiten(BigDecimal koeff[][], JButton button, boolean erstmalig) 
 	{
 		System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
-		Ausgabe(koeff);
+		Ausgabe(koeff, erstmalig);
 		button.setEnabled(true);
 		button.setFocusable(false);
 	}
@@ -231,7 +234,6 @@ public class FKT
 		{
 			//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
 			char zeichen = text.charAt(laenge-1);
-			//Falls zeichen nicht groesser gleich 1 und kleiner gleich 9 ist 
 			if(!((zeichen >= '1') && (zeichen <= '9'))) 
 			{
 				OptionPane("Bitte nur Zahlen von 1 bis 9 eingeben!", frame);
