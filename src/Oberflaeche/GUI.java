@@ -168,7 +168,7 @@ public class GUI extends JFrame
 		addWindowListener(new WindowHandler());
 		addKeyListener(new KeyHandler());
 	}
-	//extends, damit ActionHandler die Funktionen aus FKT nutzen kann 
+
 	private class ActionHandler extends FKT implements ActionListener 
 	{
 		@Override
@@ -178,7 +178,7 @@ public class GUI extends JFrame
 			{
 				if(modus == 0) 
 				{
-					OptionPane("Bitte geben Sie einen Modus an!", GUI.this);
+					optionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					variable.setFocusable(false);
 				}
 				else 
@@ -197,7 +197,7 @@ public class GUI extends JFrame
 			{
 				if(modus == 0) 
 				{
-					OptionPane("Bitte geben Sie einen Modus an!", GUI.this);
+					optionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					gleichung.setFocusable(false);
 				}
 				else 
@@ -225,7 +225,8 @@ public class GUI extends JFrame
 			}
 			if(ap.getSource() == nein) 
 			{
-				//Gibt alle nativen Bildschirmressourcen frei, die von diesem Fenster, seinen Unterkomponenten und allen eigenen untergeordneten Elementen verwendet werden
+				//Gibt alle nativen Bildschirmressourcen frei, die von diesem Fenster, 
+				//seinen Unterkomponenten und allen eigenen untergeordneten Elementen verwendet werden
 				dialog.dispose();
 			}
 		}

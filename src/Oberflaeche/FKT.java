@@ -217,7 +217,7 @@ public class FKT
 		button.setFocusable(false);
 	}
 	
-	void OptionPane(String nachricht, JFrame frame) 
+	void optionPane(String nachricht, JFrame frame) 
 	{
 		JOptionPane pane = new JOptionPane(nachricht, JOptionPane.INFORMATION_MESSAGE, JOptionPane.OK_OPTION, null, new String[] {"OK"});
 		JDialog dialog = pane.createDialog(frame, "Warnung!");
@@ -233,7 +233,7 @@ public class FKT
 			char zeichen = text.charAt(laenge-1);
 			if(!((zeichen >= '1') && (zeichen <= '9'))) 
 			{
-				OptionPane("Bitte nur Zahlen von 1 bis 9 eingeben!", frame);
+				optionPane("Bitte nur Zahlen von 1 bis 9 eingeben!", frame);
 				eingabe.setText("");
 			}
 		}
