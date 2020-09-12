@@ -1,6 +1,5 @@
 package Oberflaeche;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import javax.swing.JTextArea;
 
@@ -11,7 +10,7 @@ public class TextAreaOutputStream extends OutputStream
     
     //Erstellt eine neue Instanz von TextAreaOutputStream, welche in die angegebene JTextArea schreibt.
     //control: Name der JTextArea an das die Ausgabe umgeleitet wird.
-    public TextAreaOutputStream (JTextArea zwischen) 
+    public TextAreaOutputStream(JTextArea zwischen) 
     {
     	//Wird an die lokale JTextArea uebergeben, damit die in write genutzt werden kann
     	end = zwischen;
@@ -19,7 +18,7 @@ public class TextAreaOutputStream extends OutputStream
 
     //Klassen, die eine Unterklasse von OutputStream sind müssen, mindestens die Methode "write" bereitstellen, die einen Byte "Ausgabe" schreibt (z.B.: ein H).
     //Schreibt das angegebene Byte in einen Ausgabestrom (TextAreaOutputStream)
-    public void write (int b) throws IOException 
+    public void write(int b) 
     {
         //append: Haengt das in der Klammer ans Ende der TextArea dran 
     	//String.valueOf(char c) erwartet einen char, deshalb der cast, sonst wuerde eine andere Methode genommen werden

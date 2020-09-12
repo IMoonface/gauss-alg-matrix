@@ -65,8 +65,12 @@ public class GUI extends JFrame
 						 
 	BigDecimal test5 [][] = {{new BigDecimal(7), new BigDecimal(1), new BigDecimal(3)},
 						     {new BigDecimal(7), new BigDecimal(1), new BigDecimal(3)}};
+	*/			     
+	BigDecimal test6 [][] = {{new BigDecimal(-6), new BigDecimal(6), new BigDecimal(-4), new BigDecimal(-9), new BigDecimal(5)},
+						     {new BigDecimal(-5), new BigDecimal(5), new BigDecimal(-3), new BigDecimal(-2), new BigDecimal(-6)},
+						     {new BigDecimal(3), new BigDecimal(-5), new BigDecimal(4), new BigDecimal(6), new BigDecimal(2)},
+						     {new BigDecimal(8), new BigDecimal(5), new BigDecimal(-7), new BigDecimal(3), new BigDecimal(2)}};
 	
-	*/
 	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false, erstmalig = true;
 	
@@ -174,9 +178,9 @@ public class GUI extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent ap) 
 		{
-			if(ap.getSource() == variable) 
+			if (ap.getSource() == variable) 
 			{
-				if(modus == 0) 
+				if (modus == 0) 
 				{
 					optionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					variable.setFocusable(false);
@@ -185,7 +189,7 @@ public class GUI extends JFrame
 				{
 					var = Integer.valueOf(String.valueOf(eingabeVar.getText()));	
 					varBereit = true;
-					if(gleiBereit && varBereit) 
+					if (gleiBereit && varBereit) 
 					{
 						koeff = fuellen(var, gleich, modus);
 						vorbereiten(koeff, ergebnis, erstmalig);
@@ -193,9 +197,9 @@ public class GUI extends JFrame
 					variable.setFocusable(false);
 				}
 			}		
-			if(ap.getSource() == gleichung) 
+			if (ap.getSource() == gleichung) 
 			{
-				if(modus == 0) 
+				if (modus == 0) 
 				{
 					optionPane("Bitte geben Sie einen Modus an!", GUI.this);
 					gleichung.setFocusable(false);
@@ -212,18 +216,18 @@ public class GUI extends JFrame
 					gleichung.setFocusable(false);
 				}
 			}		
-			if(ap.getSource() == ergebnis) 
+			if (ap.getSource() == ergebnis) 
 			{
 				erstmalig = false;
-				gaussAlg(koeff, var, gleich, erstmalig);
+				gaussAlg(test6, var, gleich, erstmalig);
 				ergebnis.setEnabled(false);
 				ergebnis.setFocusable(false);
 			}
-			if(ap.getSource() == ja) 
+			if (ap.getSource() == ja) 
 			{
 				System.exit(0);
 			}
-			if(ap.getSource() == nein) 
+			if (ap.getSource() == nein) 
 			{
 				//Gibt alle nativen Bildschirmressourcen frei, die von diesem Fenster, 
 				//seinen Unterkomponenten und allen eigenen untergeordneten Elementen verwendet werden
@@ -239,7 +243,7 @@ public class GUI extends JFrame
 		{
 			String e1 = (String.valueOf(eingabeVar.getText())).trim();
 			String e2 = (String.valueOf(eingabeGlei.getText())).trim();
-			if(e1.isEmpty() || e1.length() > 1) 
+			if (e1.isEmpty() || e1.length() > 1) 
 			{
 				variable.setEnabled(false);
 			}
@@ -247,7 +251,7 @@ public class GUI extends JFrame
 			{
 				variable.setEnabled(true);
 			}
-			if(e2.isEmpty() || e2.length() > 1) 
+			if (e2.isEmpty() || e2.length() > 1) 
 			{
 				gleichung.setEnabled(false);
 			}
@@ -255,7 +259,7 @@ public class GUI extends JFrame
 			{
 				gleichung.setEnabled(true);
 			}
-			if(angeklickt == false) 
+			if (angeklickt == false) 
 			{
 				if(e1.length() == 1 && e2.length() == 1) 
 				{
@@ -278,9 +282,9 @@ public class GUI extends JFrame
 		@Override
 		public void itemStateChanged(ItemEvent isc) 
 		{
-			if(isc.getSource() == positiv) 
+			if (isc.getSource() == positiv) 
 			{
-				if(positiv.isSelected()) 
+				if (positiv.isSelected()) 
 				{
 					modus = 1;
 					positiv.setFocusable(false);
@@ -296,9 +300,9 @@ public class GUI extends JFrame
 					angeklickt = false;
 				}
 			}
-			if(isc.getSource() == negativ) 
+			if (isc.getSource() == negativ) 
 			{
-				if(negativ.isSelected()) 
+				if (negativ.isSelected()) 
 				{
 					modus = 2;
 					negativ.setFocusable(false);
@@ -314,9 +318,9 @@ public class GUI extends JFrame
 					angeklickt = false;
 				}
 			}
-			if(isc.getSource() == mixed) 
+			if (isc.getSource() == mixed) 
 			{
-				if(mixed.isSelected()) 
+				if (mixed.isSelected()) 
 				{
 					modus = 3;
 					mixed.setFocusable(false);
@@ -340,11 +344,11 @@ public class GUI extends JFrame
 		@Override
 		public void keyReleased(KeyEvent kr) 
 		{
-			if(kr.getSource() == eingabeVar) 
+			if (kr.getSource() == eingabeVar) 
 			{
 				textChecken(eingabeVar.getText(), eingabeVar.getText().length(), eingabeVar, GUI.this);	
 			}
-			if(kr.getSource() == eingabeGlei) 
+			if (kr.getSource() == eingabeGlei) 
 			{
 				textChecken(eingabeGlei.getText(), eingabeGlei.getText().length(), eingabeGlei, GUI.this);
 			}
@@ -357,7 +361,7 @@ public class GUI extends JFrame
 		@Override
 		public void keyPressed(KeyEvent kp) 
 		{
-			if(kp.isControlDown() && kp.getKeyCode() == KeyEvent.VK_G) 
+			if (kp.isControlDown() && kp.getKeyCode() == KeyEvent.VK_G) 
 			{
 				Impressum dialogEast = new Impressum(GUI.this);
 				dialogEast.setLocationRelativeTo(GUI.this);
