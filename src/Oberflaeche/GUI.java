@@ -187,7 +187,7 @@ public class GUI extends JFrame
 					varBereit = true;
 					if(gleiBereit && varBereit) 
 					{
-						koeff = Fuellen(var, gleich, modus);
+						koeff = fuellen(var, gleich, modus);
 						vorbereiten(koeff, ergebnis, erstmalig);
 					}
 					variable.setFocusable(false);
@@ -206,7 +206,7 @@ public class GUI extends JFrame
 					gleiBereit = true;
 					if(gleiBereit && varBereit) 
 					{
-						koeff = Fuellen(var, gleich, modus);
+						koeff = fuellen(var, gleich, modus);
 						vorbereiten(koeff, ergebnis, erstmalig);
 					}
 					gleichung.setFocusable(false);

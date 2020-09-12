@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 public class FKT
 {	
-	BigDecimal[][] Fuellen(int var, int gleich, int modus) 
+	BigDecimal[][] fuellen(int var, int gleich, int modus) 
 	{
 		BigDecimal[][] matrize = new BigDecimal[gleich][var+1];
 	    for(int gleichungen = 0; gleichungen < matrize.length; gleichungen++) 
@@ -50,7 +50,7 @@ public class FKT
 		return matrize;
 	}
 	//erstmalig dient nur dafuer den "Modus" zu entscheiden. Entweder auf 3 Zahlen begrenzt oder einfach normale Ausgabe
-	void Ausgabe(BigDecimal[][] matrize, boolean erstmalig) 
+	void ausgabe(BigDecimal[][] matrize, boolean erstmalig) 
 	{	
 	    for(int ausgabeG = 0; ausgabeG < matrize.length; ausgabeG++) 
 		{
@@ -87,7 +87,7 @@ public class FKT
 		if(var==1 && gleich==1) 
 		{
 			System.out.println("Das Ergebnis ist:\n");
-			Ausgabe(matrize, erstmalig);
+			ausgabe(matrize, erstmalig);
 		}
 		else 
 		{
@@ -113,21 +113,19 @@ public class FKT
 					for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
 						BigDecimal dividend = matrize[divisorEL+1][SpaltenIndex];
-						//Für hoehere Praezision
 						matrize[divisorEL+1][SpaltenIndex] = dividend.divide(divisor2, 5, RoundingMode.HALF_UP);
 					}
 					System.out.println("Dividiere " + (divisorEL+2) + ". Zeile durch: " + divisor2.setScale(3, RoundingMode.HALF_UP) + "\n");
-					Ausgabe(matrize, erstmalig);
+					ausgabe(matrize, erstmalig);
 					for(int spaltenEl = divisorEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
 						for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 						{
 							BigDecimal summand = matrize[divisorEL+1][SpaltenIndex];
-							//add: Addiert die Zahl in der Klammer drauf
 							matrize[spaltenEl-1][SpaltenIndex] = summand.add(matrize[spaltenEl-1][SpaltenIndex]);
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl) + ". Zeile\n");
-						Ausgabe(matrize, erstmalig);
+						ausgabe(matrize, erstmalig);
 					}
 					//weil die 3te Zeile 1 als erstes Element hat muss man die 2 Zeile jetzt negiert draufrechnen
 					for(int spaltenEl = divisorEL+1; spaltenEl < matrize.length; spaltenEl++) 
@@ -138,7 +136,7 @@ public class FKT
 							matrize[spaltenEl][SpaltenIndex] = summand.add(matrize[spaltenEl][SpaltenIndex]);
 						}
 						System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
-						Ausgabe(matrize, erstmalig);
+						ausgabe(matrize, erstmalig);
 					}
 				}
 				else 
@@ -146,11 +144,10 @@ public class FKT
 					for(int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
 						BigDecimal dividend = matrize[divisorEL][SpaltenIndex];
-						//divide: Dividiert die Zahl in der Klammer
 						matrize[divisorEL][SpaltenIndex] = dividend.divide(divisor, 5, RoundingMode.HALF_UP);
 					}
 					System.out.println("Dividiere " + (divisorEL+1) + ". Zeile durch: " + divisor.setScale(3, RoundingMode.HALF_UP) + "\n");
-					Ausgabe(matrize, erstmalig);
+					ausgabe(matrize, erstmalig);
 					
 					for(int spaltenEl = divisorEL+1; spaltenEl < matrize.length; spaltenEl++) 
 					{
@@ -161,12 +158,12 @@ public class FKT
 							matrize[spaltenEl][SpaltenIndex] = summand.add(matrize[spaltenEl][SpaltenIndex]);
 						}
 						System.out.println("Multipliziere mit: " + multi.setScale(3, RoundingMode.HALF_UP) + "\nund addiere mit der " + (spaltenEl+1) + ". Zeile\n");
-						Ausgabe(matrize, erstmalig);
+						ausgabe(matrize, erstmalig);
 					}
 				}
 			}
 			System.out.println("Das Ergebnis ist:\n");
-			Ausgabe(matrize, erstmalig);
+			ausgabe(matrize, erstmalig);
 			//Ueberpruefen auf Nullzeile
 			boolean loesbar = false;
 			for(int zeilen = 0; zeilen < matrize.length; zeilen++) 
@@ -199,11 +196,11 @@ public class FKT
 							matrize[einserZL-2][SpaltenIndex-1] = summand.add(matrize[einserZL-2][SpaltenIndex-1]);
 						}
 						System.out.println("Multipliziere mit: " + multi.setScale(3, RoundingMode.HALF_UP) + "\nund addiere mit der " + (einserZL-1) + ". Zeile\n");
-						Ausgabe(matrize, erstmalig);
+						ausgabe(matrize, erstmalig);
 					}
 				}		
 				System.out.println("Das Ergebnis ist:\n");
-				Ausgabe(matrize, erstmalig); 
+				ausgabe(matrize, erstmalig); 
 			}
 			else 
 			{
@@ -215,7 +212,7 @@ public class FKT
 	void vorbereiten(BigDecimal koeff[][], JButton button, boolean erstmalig) 
 	{
 		System.out.println(" Ihre Koeffizienten Matrix ist:\n");  
-		Ausgabe(koeff, erstmalig);
+		ausgabe(koeff, erstmalig);
 		button.setEnabled(true);
 		button.setFocusable(false);
 	}
