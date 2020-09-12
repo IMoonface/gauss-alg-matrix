@@ -44,33 +44,6 @@ public class GUI extends JFrame
 	JDialog dialog;
 	Image logo;
 	BigDecimal koeff[][];
-	/*
-	//Nur zum Testen
-	double test [][] = {{5.0,5.0,3.0,7.0},
-						{4.0,4.0,8.0,6.0},
-						{5.0,6.0,9.0,1.0}};
-	
-	double test2 [][] = {{5.0,8.0,3.0,2.0},
-						 {3.0,4.0,1.0,5.0},
-						 {2.0,8.0,7.0,4.0}};
-	
-	double test3 [][] = {{3.0,2.0,2.0,2.0},
-						 {2.0,3.0,2.0,2.0},
-						 {2.0,2.0,3.0,2.0}};
-	
-	double test4 [][] = {{8.0,-3.0,3.0,3.0},
-						 {4.0,-1.0,7.0,-3.0},
-						 {3.0,3.0,-9.0,-6.0},
-						 {-6.0,-8.0,3.0,-3.0}};	
-						 
-	BigDecimal test5 [][] = {{new BigDecimal(7), new BigDecimal(1), new BigDecimal(3)},
-						     {new BigDecimal(7), new BigDecimal(1), new BigDecimal(3)}};
-	*/			     
-	BigDecimal test6 [][] = {{new BigDecimal(-6), new BigDecimal(6), new BigDecimal(-4), new BigDecimal(-9), new BigDecimal(5)},
-						     {new BigDecimal(-5), new BigDecimal(5), new BigDecimal(-3), new BigDecimal(-2), new BigDecimal(-6)},
-						     {new BigDecimal(3), new BigDecimal(-5), new BigDecimal(4), new BigDecimal(6), new BigDecimal(2)},
-						     {new BigDecimal(8), new BigDecimal(5), new BigDecimal(-7), new BigDecimal(3), new BigDecimal(2)}};
-	
 	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false, erstmalig = true;
 	
@@ -219,7 +192,7 @@ public class GUI extends JFrame
 			if (ap.getSource() == ergebnis) 
 			{
 				erstmalig = false;
-				gaussAlg(test6, var, gleich, erstmalig);
+				gaussAlg(koeff, var, gleich, erstmalig);
 				ergebnis.setEnabled(false);
 				ergebnis.setFocusable(false);
 			}
