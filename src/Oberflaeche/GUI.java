@@ -42,6 +42,7 @@ public class GUI extends JFrame
 	JDialog dialog;
 	Image logo;
 	BigDecimal koeff[][];
+	BigDecimal test1[][] = {{new BigDecimal(8), new BigDecimal(9)}};
 	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false, erstmalig = true;
 	
@@ -192,7 +193,14 @@ public class GUI extends JFrame
 			if (ap.getSource() == ergebnis) 
 			{
 				erstmalig = false;
-				gaussAlg(koeff, var, gleich, erstmalig);
+				if (var==1 && gleich==1) 
+				{
+					einerMatrix(koeff, erstmalig);
+				}
+				else 
+				{
+					gaussAlg(koeff, var, gleich, erstmalig);
+				}
 				erstmalig = true;
 				ergebnis.setEnabled(false);
 				ergebnis.setFocusable(false);
