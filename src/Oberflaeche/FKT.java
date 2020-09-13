@@ -86,6 +86,11 @@ public class FKT
 	{
 		if (var==1 && gleich==1) 
 		{
+			BigDecimal divisor = matrize[0][0];
+			for(int spalten = 0; spalten < matrize[0].length; spalten++)
+			{
+				matrize[0][spalten] = matrize[0][spalten].divide(divisor, 2, RoundingMode.HALF_UP);
+			}
 			System.out.println("Das Ergebnis ist:\n");
 			ausgabe(matrize, erstmalig);
 		}
@@ -114,15 +119,13 @@ public class FKT
 					BigDecimal divisor2 = matrize[divisorEL+1][divisorEL];
 					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						BigDecimal dividend = matrize[divisorEL+1][SpaltenIndex];
-						matrize[divisorEL+1][SpaltenIndex] = dividend.divide(divisor2, 5, RoundingMode.HALF_UP);
+						matrize[divisorEL+1][SpaltenIndex] = matrize[divisorEL+1][SpaltenIndex].divide(divisor2, 5, RoundingMode.HALF_UP);
 					}
 					System.out.println("Dividiere " + (divisorEL+2) + ". Zeile durch: " + divisor2.setScale(3, RoundingMode.HALF_UP) + "\n");
 					ausgabe(matrize, erstmalig);
 					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						BigDecimal summand = matrize[divisorEL+1][SpaltenIndex];
-						matrize[divisorEL][SpaltenIndex] = summand.add(matrize[divisorEL][SpaltenIndex]);
+						matrize[divisorEL][SpaltenIndex] = matrize[divisorEL+1][SpaltenIndex].add(matrize[divisorEL][SpaltenIndex]);
 					}
 					System.out.println("Multipliziere mit: 1" + "\nund addiere mit der " + (divisorEL+1) + ". Zeile\n");
 					ausgabe(matrize, erstmalig);
@@ -133,8 +136,7 @@ public class FKT
 				{
 					for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) 
 					{
-						BigDecimal dividend = matrize[divisorEL][SpaltenIndex];
-						matrize[divisorEL][SpaltenIndex] = dividend.divide(divisor, 5, RoundingMode.HALF_UP);
+						matrize[divisorEL][SpaltenIndex] = matrize[divisorEL][SpaltenIndex].divide(divisor, 5, RoundingMode.HALF_UP);
 					}
 					System.out.println("Dividiere " + (divisorEL+1) + ". Zeile durch: " + divisor.setScale(3, RoundingMode.HALF_UP) + "\n");
 					ausgabe(matrize, erstmalig);
@@ -220,8 +222,7 @@ public class FKT
 		if (laenge > 0) 
 		{
 			//Wenn laenge = 1 waere, dann soll es an Index 0 gucken usw. (So wird jedes neue Zeichen ueberprueft)
-			char zeichen = text.charAt(laenge-1);
-			if (!((zeichen >= '1') && (zeichen <= '9'))) 
+			if (!(text.charAt(laenge-1) >= '1' && text.charAt(laenge-1) <= '9')) 
 			{
 				optionPane("Bitte nur Zahlen von 1 bis 9 eingeben!", frame);
 				eingabe.setText("");

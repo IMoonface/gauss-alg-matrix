@@ -11,7 +11,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.PrintStream;
 import java.math.BigDecimal;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,7 +31,6 @@ public class GUI extends JFrame
 {
 	//Versions ID: Zum Unterscheiden der Klasse GUI
 	private static final long serialVersionUID = 1L;
-	
 	JPanel panel;
 	JTextArea console;
 	JTextPane hinweis;
@@ -50,8 +48,7 @@ public class GUI extends JFrame
 	public GUI() 
 	{
 		setLayout(null);
-		setFocusable(true);
-		
+		setFocusable(true);	
 		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(0, 0, 480, 370);
@@ -133,15 +130,14 @@ public class GUI extends JFrame
 		
 		erklaerung = new JLabel("Dies ist Programm zur Anwendung des Gauss Jordan Algorithmus.");
 		erklaerung.setBounds(10, 260, 450, 100);
-		panel.add(erklaerung);
+		panel.add(erklaerung);	
 		
 		hinweis = new JTextPane();
 		hinweis.setText("Hinweis:\nDas Ergebnis wird auf 3 Nachkommastellen gerundet. Es kann zu kleinen Ungenauigkeiten kommen.");
 		hinweis.setBackground(getContentPane().getBackground());
 		hinweis.setBounds(300, 190, 150, 100);
 		hinweis.setEditable(false);
-		panel.add(hinweis);
-		
+		panel.add(hinweis);		
 		addWindowListener(new WindowHandler());
 		addKeyListener(new KeyHandler());
 	}
@@ -160,12 +156,14 @@ public class GUI extends JFrame
 				}
 				else 
 				{
-					var = Integer.valueOf(String.valueOf(eingabeVar.getText()));	
+					var = Integer.valueOf(String.valueOf(eingabeVar.getText()));
 					varBereit = true;
 					if (gleiBereit && varBereit) 
 					{
 						koeff = fuellen(var, gleich, modus);
 						vorbereiten(koeff, ergebnis, erstmalig);
+						varBereit = false;
+						gleiBereit = false;
 					}
 					variable.setFocusable(false);
 				}
@@ -185,6 +183,8 @@ public class GUI extends JFrame
 					{
 						koeff = fuellen(var, gleich, modus);
 						vorbereiten(koeff, ergebnis, erstmalig);
+						varBereit = false;
+						gleiBereit = false;
 					}
 					gleichung.setFocusable(false);
 				}
@@ -193,6 +193,7 @@ public class GUI extends JFrame
 			{
 				erstmalig = false;
 				gaussAlg(koeff, var, gleich, erstmalig);
+				erstmalig = true;
 				ergebnis.setEnabled(false);
 				ergebnis.setFocusable(false);
 			}

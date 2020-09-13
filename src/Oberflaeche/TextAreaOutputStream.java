@@ -6,8 +6,7 @@ import javax.swing.JTextArea;
 //OutputStream: Diese abstrakte Klasse ist die Oberklasse aller Klassen, die einen Ausgabestrom von Bytes darstellen
 public class TextAreaOutputStream extends OutputStream 
 {
-    JTextArea end;
-    
+    JTextArea end; 
     //Erstellt eine neue Instanz von TextAreaOutputStream, welche in die angegebene JTextArea schreibt.
     //control: Name der JTextArea an das die Ausgabe umgeleitet wird.
     public TextAreaOutputStream(JTextArea zwischen) 
@@ -15,7 +14,6 @@ public class TextAreaOutputStream extends OutputStream
     	//Wird an die lokale JTextArea uebergeben, damit die in write genutzt werden kann
     	end = zwischen;
     }
-
     //Klassen, die eine Unterklasse von OutputStream sind müssen, mindestens die Methode "write" bereitstellen, die einen Byte "Ausgabe" schreibt (z.B.: ein H).
     //Schreibt das angegebene Byte in einen Ausgabestrom (TextAreaOutputStream)
     public void write(int b) 
