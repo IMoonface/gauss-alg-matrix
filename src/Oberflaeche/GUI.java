@@ -42,7 +42,6 @@ public class GUI extends JFrame
 	JDialog dialog;
 	Image logo;
 	BigDecimal koeff[][];
-	BigDecimal test1[][] = {{new BigDecimal(8), new BigDecimal(9)}};
 	int var = 0, gleich = 0, modus = 0;
 	boolean varBereit = false, gleiBereit = false, angeklickt = false, erstmalig = true;
 	
