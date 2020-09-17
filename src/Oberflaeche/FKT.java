@@ -92,8 +92,7 @@ public class FKT {
 				ausgabe(matrize, erstmalig);
 				//dann wird resetet
 				divisorEL--;
-			}
-			else {
+			} else {
 				for (int SpaltenIndex = 0; SpaltenIndex < matrize[0].length; SpaltenIndex++) {
 					matrize[divisorEL][SpaltenIndex] = matrize[divisorEL][SpaltenIndex].divide(divisor, 6, RoundingMode.HALF_UP);
 				}
@@ -117,8 +116,7 @@ public class FKT {
 		if (var >= gleich && loesbar) {
 			//Rest vom ALG
 			restGaus(matrize, var, gleich, loesbar, erstmalig);
-		}
-		else {
+		} else {
 			System.out.println("Das Gleichungsystem ist unloesbar!");
 		}
 	}
@@ -129,8 +127,7 @@ public class FKT {
 			for (int spalten = 0; spalten < matrize[0].length-1; spalten++) {
 				if (matrize[zeilen][spalten] == BigDecimal.valueOf(0) && matrize[zeilen][matrize[0].length-1] != BigDecimal.valueOf(0)) {
 					loesbar = false;
-				}
-				else {
+				} else {
 					loesbar = true;
 				}
 			}

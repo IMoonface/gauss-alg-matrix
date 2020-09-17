@@ -307,7 +307,7 @@ public class GUI extends JFrame {
 
 		@Override
 		public void windowClosing(WindowEvent wc) {
-			Object[] options = {ja = new JButton("Ja"), nein = new JButton("Nein")};
+			Object[] options = { ja = new JButton("Ja"), nein = new JButton("Nein") };
 			ja.addActionListener(new ActionHandler());
 			nein.addActionListener(new ActionHandler());
 			JOptionPane schliessen = new JOptionPane("Wollen Sie das Programm wirklich beenden?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION, null, options);

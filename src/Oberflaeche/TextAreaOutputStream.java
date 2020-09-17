@@ -15,7 +15,7 @@ public class TextAreaOutputStream extends OutputStream {
     //write: Schreibt das angegebene Byte in diesen Ausgabestrom (TextAreaOutputStream)
     //Klassen, die eine Unterklasse von OutputStream sind müssen, mindestens die Methode "write" bereitstellen, die einen Byte "Ausgabe" schreibt (z.B.: ein H).
     public void write(int b) {
-        //append: Haengt das in der Klammer ans Ende der TextArea dran 
+        //append: Haengt das in der Klammer ans Ende der TextArea dran
     	//String.valueOf(char c) erwartet einen char, deshalb der cast, sonst wuerde eine andere Methode genommen werden
     	end.append(String.valueOf((char)b));
     }  
