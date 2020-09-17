@@ -3,14 +3,12 @@ package Oberflaeche;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
 
-public class Impressum extends JDialog
-{
+public class Impressum extends JDialog {
 	//Versions ID: Zum Unterscheiden der einzelenen Dialogs
 	private static final long serialVersionUID = 1L;
 	JTextArea copyright;
 	
-	public Impressum(GUI easter) 
-	{
+	public Impressum(GUI easter) {
 		super(easter);
 		setTitle("Impressum");
 		setResizable(false);
